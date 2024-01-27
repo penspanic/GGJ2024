@@ -74,3 +74,4 @@ crashlytics-build.properties
 Assets/SceneDependencyCache/
 Assets/SceneDependencyCache.meta
 bin/
+Assets/GlobalEntitiesDependencies*
