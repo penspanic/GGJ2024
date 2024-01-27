@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FurCatController : MonoBehaviour
 {
+    [SerializeField]
+    private Slider feverSlider = null;
+    [SerializeField]
+    private Slider angrySlider = null;
+
     [SerializeField]
     private GameObject angryFace = null;
 
@@ -37,11 +43,16 @@ public class FurCatController : MonoBehaviour
         //feverFace.SetActive(false);
         normalFace.SetActive(true);
         happyFace.SetActive(false);
+        kickBody.SetActive(false);
+        normalBody.SetActive(true);
 
         angryIntervalTimer = 0f;
         angryIntervalTime = Random.Range(5f, 10f);
         angryDurationTimer = 0f;
         angryDurationTime = Random.Range(1f, 3f);
+
+        feverSlider.value = 0f;
+        angrySlider.value = 0f;
     }
 
     private void Update() 
@@ -50,16 +61,14 @@ public class FurCatController : MonoBehaviour
         {
             return;
         }
-        
-        Debug.Log("fur cat update");
-        
+
         if (isAngry) 
         {
             angryDurationTimer += Time.deltaTime;
             if (angryDurationTimer >= angryDurationTime) 
             {
                 angryDurationTimer = 0f;
-                angryDurationTime = Random.Range(0.5f, 3f);
+                angryDurationTime = Random.Range(2f, 4f);
                 isAngry = false;
             }
         }
@@ -70,35 +79,35 @@ public class FurCatController : MonoBehaviour
             {
                 angryIntervalTimer = 0f;
                 angryIntervalTime = Random.Range(2f, 8f);
-                isAngry = true;
                 OnAngry();
             }
+        }
 
-            if(isScrubbing is false)
+        if(isScrubbing is false)
+        {
+            using var query = Unity.Entities.World.DefaultGameObjectInjectionWorld.EntityManager.CreateEntityQuery(typeof(CatFurStatus));
+            if (query.TryGetSingleton(out CatFurStatus furStatus) is true) 
             {
-                Debug.Log("check query");
-                using var query = Unity.Entities.World.DefaultGameObjectInjectionWorld.EntityManager.CreateEntityQuery(typeof(CatFurStatus));
-                if (query.TryGetSingleton(out CatFurStatus furStatus) is true) 
+                if (furStatus.LastTouchTime > Time.time - 0.5f) 
                 {
-                    Debug.Log(furStatus.LastTouchTime);
-                    if (furStatus.LastTouchTime > Time.time - 0.5f) 
-                    {
-                        OnScrub();
-                        return;
-                    }
-                } 
-                else 
-                {
-                    Debug.Log("TryGetSingleton false");
+                    OnScrub();
+                    return;
                 }
-
-                OnNormal();
+            } 
+            else 
+            {
+                Debug.Log("TryGetSingleton false");
             }
+
+            OnNormal();
         }
     }
 
     private void OnNormal() 
     {
+        if(isAngry || isFever || isScrubbing)
+            return;
+
         angryFace.SetActive(false);
         //feverFace.SetActive(false);
         normalFace.SetActive(true);
@@ -115,6 +124,7 @@ public class FurCatController : MonoBehaviour
         if(isAngry) {
             // add angry gauge
             angryGauge += 0.1f;
+            angrySlider.value = angryGauge;
 
             // if angry gauge is full
             if(angryGauge >= 1f) {
@@ -127,7 +137,8 @@ public class FurCatController : MonoBehaviour
             MainScene.Instance.Score += 1;
 
             // add fever gauge
-            feverGauge += 0.1f;
+            feverGauge += 0.02f;
+            feverSlider.value = feverGauge;
 
             angryFace.SetActive(false);
             //feverFace.SetActive(false);
@@ -148,20 +159,42 @@ public class FurCatController : MonoBehaviour
     }
 
     private void OnAngry() {
+        isAngry = true;
+
         angryFace.SetActive(true);
         //feverFace.SetActive(false);
         normalFace.SetActive(false);
         happyFace.SetActive(false);
+
+        StartCoroutine(AngryRoutine());
+    }
+
+    private IEnumerator AngryRoutine() {
+        yield return new WaitForSeconds(0.1f);
+        normalBody.SetActive(false);
+        kickBody.SetActive(true);
+        yield return new WaitForSeconds(0.25f);
+        normalBody.SetActive(true);
+        kickBody.SetActive(false);
+        yield return new WaitForSeconds(0.25f);
+        normalBody.SetActive(false);
+        kickBody.SetActive(true);
+        yield return new WaitForSeconds(0.25f);
+        normalBody.SetActive(true);
+        kickBody.SetActive(false);
     }
 
     // called by button
     public void OnFever() {
-        if(feverGauge >= 1f) {
-            angryFace.SetActive(false);
-            //feverFace.SetActive(true);
-            normalFace.SetActive(false);
-            happyFace.SetActive(false);
+        if(feverGauge < 1f) {
+            return;
         }
+
+        angryFace.SetActive(false);
+        //feverFace.SetActive(true);
+        normalFace.SetActive(false);
+        happyFace.SetActive(false);
+        
         // 츄르 주고 angry 안되게
         StartCoroutine(FeverRoutine());
     }

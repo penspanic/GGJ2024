@@ -61,6 +61,11 @@ public class MainScene : MonoBehaviour
 
     private void Start() 
     {
+        if(sceneButtonsRoot == null) 
+        {
+            //Debug.LogError("sceneButtonsRoot is null");
+            return;
+        }
         var buttons = sceneButtonsRoot.GetComponentsInChildren<Button>();
         foreach (var button in buttons) 
         {
