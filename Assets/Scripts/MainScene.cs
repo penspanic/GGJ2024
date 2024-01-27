@@ -7,23 +7,24 @@ using System.Collections;
 public class MainScene : MonoBehaviour 
 {
     public Text scoreText;
+    public Curtain curtain;
 
     private static MainScene instance;
 
     public static MainScene Instance 
     {
         get {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<MainScene>();
-
-                if (instance == null)
-                {
-                    GameObject obj = new GameObject();
-                    obj.name = typeof(MainScene).Name;
-                    instance = obj.AddComponent<MainScene>();
-                }
-            }
+            // if (instance == null)
+            // {
+            //     instance = FindObjectOfType<MainScene>();
+            //
+            //     if (instance == null)
+            //     {
+            //         GameObject obj = new GameObject();
+            //         obj.name = typeof(MainScene).Name;
+            //         instance = obj.AddComponent<MainScene>();
+            //     }
+            // }
 
             return instance;
         }
@@ -35,11 +36,19 @@ public class MainScene : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            curtain.gameObject.SetActive(true);
+            StartCoroutine(StartRoutine());
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private IEnumerator StartRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+        curtain.Down();
     }
 
     private readonly string GAME_SCENE_PREFIX = "GameScene";
