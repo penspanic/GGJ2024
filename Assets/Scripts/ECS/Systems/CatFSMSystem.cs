@@ -69,7 +69,10 @@ namespace ECS.Systems
                         rigidBodyAspect.IsKinematic = false;
                         ecb.AddComponent(entity, new CatIdle()
                         {
-                            startPosition = startPos
+                            startPosition = startPos,
+                            speed = Random.Range(settings.IdleStatusSpeedRange.x, settings.IdleStatusSpeedRange.y),
+                            amplitude = Random.Range(settings.IdleStatusAmplitudeRange.x, settings.IdleStatusAmplitudeRange.y),
+                            reverse = Random.value < 0.5f
                         });
                         ecb.RemoveComponent<CatWalk>(entity);
                         ecb.RemoveComponent<CatJump>(entity);
@@ -79,7 +82,8 @@ namespace ECS.Systems
                         // direction : random 0~360 degree direction
                         ecb.AddComponent(entity, new CatWalk()
                         {
-                            direction = Random.insideUnitCircle.normalized
+                            directionWithSpeed = Random.insideUnitCircle.normalized *
+                                                 Random.Range(settings.MoveStatusSpeedRange.x, settings.MoveStatusSpeedRange.y)
                         });
                         ecb.RemoveComponent<CatIdle>(entity);
                         ecb.RemoveComponent<CatJump>(entity);
@@ -103,17 +107,17 @@ namespace ECS.Systems
         {
             if (currentState == CatStateType.Unknown)
             {
-                endTime = time + 3f;
+                endTime = time + Random.Range(0.5f, 3f);
                 return CatStateType.Ready;
             }
 
             if (laughScore < 0.5f)
             {
-                endTime = time + 1f;
+                endTime = time + Random.Range(0.2f, 1f);
                 return CatStateType.Idle;
             }
 
-            if (currentState != CatStateType.Stop && currentState != CatStateType.Idle)
+            if (currentState != CatStateType.Stop)
             {
                 endTime = time + Random.Range(0.5f, 2f);
                 return CatStateType.Stop;

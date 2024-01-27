@@ -6,9 +6,12 @@ public class CrowdSettingsAuthoring : MonoBehaviour
 {
     public float canInfectThreshold;
     public float beInfectedThreshold;
-    public float idleStatusSpeed;
+
+    public float2 idleStatusSpeedRange;
+    public float2 idleStatusAmplitudeRange;
     public float2 idleStatusDurationRange;
-    public float moveStatusSpeed;
+
+    public float2 moveStatusSpeedRange;
     public float2 moveStatusDurationRange;
 
     public class CrowdSettingsAuthoringBaker : Baker<CrowdSettingsAuthoring>
@@ -20,9 +23,10 @@ public class CrowdSettingsAuthoring : MonoBehaviour
             {
                 CanInfectThreshold = authoring.canInfectThreshold,
                 BeInfectedThreshold = authoring.beInfectedThreshold,
-                IdleStatusSpeed = authoring.idleStatusSpeed,
+                IdleStatusSpeedRange = authoring.idleStatusSpeedRange,
+                IdleStatusAmplitudeRange = authoring.idleStatusAmplitudeRange,
                 IdleStatusDurationRange = authoring.idleStatusDurationRange,
-                MoveStatusSpeed = authoring.moveStatusSpeed,
+                MoveStatusSpeedRange = authoring.moveStatusSpeedRange,
                 MoveStatusDurationRange = authoring.moveStatusDurationRange
             });
         }
@@ -33,8 +37,9 @@ public struct CrowdSettings : IComponentData
 {
     public float CanInfectThreshold;
     public float BeInfectedThreshold;
-    public float IdleStatusSpeed;
+    public float2 IdleStatusSpeedRange;
+    public float2 IdleStatusAmplitudeRange;
     public float2 IdleStatusDurationRange;
-    public float MoveStatusSpeed;
+    public float2 MoveStatusSpeedRange;
     public float2 MoveStatusDurationRange;
 }

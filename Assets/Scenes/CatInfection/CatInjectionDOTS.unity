@@ -344,11 +344,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInfectThreshold: 0.5
   beInfectedThreshold: 0.4
-  idleStatusSpeed: 0.03
+  idleStatusSpeedRange:
+    x: 0.5
+    y: 2
+  idleStatusAmplitudeRange:
+    x: 0.02
+    y: 0.4
   idleStatusDurationRange:
     x: 0.2
     y: 0.6
-  moveStatusSpeed: 0.6
+  moveStatusSpeedRange:
+    x: 0.2
+    y: 0.4
   moveStatusDurationRange:
     x: 0.1
     y: 1
@@ -416,7 +423,7 @@ MonoBehaviour:
     z: 0
   m_PrimitiveSize:
     x: 15.5
-    y: 2.3
+    y: 2
     z: 1
   m_PrimitiveOrientation:
     Value:
@@ -426,11 +433,11 @@ MonoBehaviour:
     RotationOrder: 4
   m_Capsule:
     Height: 15.5
-    Radius: 1.15
+    Radius: 1
     Axis: 0
   m_Cylinder:
     Height: 15.5
-    Radius: 1.15
+    Radius: 1
     Axis: 0
   m_CylinderSideCount: 20
   m_SphereRadius: 7.75

@@ -55,14 +55,14 @@ public enum CatStateType
 public struct CatIdle : IComponentData
 {
     public float2 startPosition;
-
-    public const float Speed = 5f;
-    public const float Amplitude = 0.1f;
+    public float speed;
+    public float amplitude;
+    public bool reverse;
 }
 
 public struct CatWalk : IComponentData
 {
-    public float2 direction;
+    public float2 directionWithSpeed;
 }
 
 public struct CatJump : IComponentData
