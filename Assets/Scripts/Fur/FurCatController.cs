@@ -27,6 +27,8 @@ public class FurCatController : MonoBehaviour
     [SerializeField]
     private GameObject kickBody = null;
 
+    private Animator animator = null;
+
     private float angryIntervalTime = 0f;
     private float angryIntervalTimer = 0f;
     private float angryDurationTime = 0f;
@@ -53,6 +55,8 @@ public class FurCatController : MonoBehaviour
 
         feverSlider.value = 0f;
         angrySlider.value = 0f;
+
+        animator = GetComponent<Animator>();
     }
 
     private void Update() 
@@ -70,6 +74,7 @@ public class FurCatController : MonoBehaviour
                 angryDurationTimer = 0f;
                 angryDurationTime = Random.Range(2f, 4f);
                 isAngry = false;
+                animator.SetInteger("State", 0);
             }
         }
         else 
@@ -108,10 +113,10 @@ public class FurCatController : MonoBehaviour
         if(isAngry || isFever || isScrubbing)
             return;
 
-        angryFace.SetActive(false);
-        //feverFace.SetActive(false);
-        normalFace.SetActive(true);
-        happyFace.SetActive(false);
+        // angryFace.SetActive(false);
+        // //feverFace.SetActive(false);
+        // normalFace.SetActive(true);
+        // happyFace.SetActive(false);
     }
 
     public void OnScrub() 
@@ -132,6 +137,8 @@ public class FurCatController : MonoBehaviour
                 MainScene.Instance.LoadNextGame();
                 return;
             }
+
+            animator.SetInteger("State", 2);
         } else {
             // TODO: mouse 나 고양이에 연출?
             MainScene.Instance.Score += 1;
@@ -140,10 +147,12 @@ public class FurCatController : MonoBehaviour
             feverGauge += 0.02f;
             feverSlider.value = feverGauge;
 
-            angryFace.SetActive(false);
-            //feverFace.SetActive(false);
-            normalFace.SetActive(false);
-            happyFace.SetActive(true);
+            // angryFace.SetActive(false);
+            // //feverFace.SetActive(false);
+            // normalFace.SetActive(false);
+            // happyFace.SetActive(true);
+
+            animator.SetInteger("State", 1);
         }
 
         StartCoroutine(EndScrub());
@@ -161,12 +170,13 @@ public class FurCatController : MonoBehaviour
     private void OnAngry() {
         isAngry = true;
 
-        angryFace.SetActive(true);
-        //feverFace.SetActive(false);
-        normalFace.SetActive(false);
-        happyFace.SetActive(false);
+        animator.SetInteger("State", 2);
+        // angryFace.SetActive(true);
+        // //feverFace.SetActive(false);
+        // normalFace.SetActive(false);
+        // happyFace.SetActive(false);
 
-        StartCoroutine(AngryRoutine());
+        //StartCoroutine(AngryRoutine());
     }
 
     private IEnumerator AngryRoutine() {
