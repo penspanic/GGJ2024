@@ -67,12 +67,15 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
         using var ecb = new EntityCommandBuffer(Allocator.Temp);
         foreach (DistanceHit distanceHit in overlapResults)
         {
+            if (EntityManager.Exists(distanceHit.Entity) is false)
+                continue;
+
             var smallCat = SystemAPI.GetComponent<SmallCat>(distanceHit.Entity);
-            float laughScore = 0.1f;
+            float laughScore = 0.2f;
             if (distanceHit.Entity == selected)
-                laughScore = 0.5f;
+                laughScore = 0.6f;
             else if (distanceHit.Distance < 0.2f)
-                laughScore = 0.3f;
+                laughScore = 0.4f;
 
             smallCat.LaughScore = math.min(smallCat.LaughScore + laughScore, 1f);
             var effectReq = ecb.CreateEntity(effectReqArcheType);

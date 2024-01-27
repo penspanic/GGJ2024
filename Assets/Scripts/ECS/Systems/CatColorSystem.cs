@@ -13,9 +13,12 @@ namespace ECS.Systems
             Color.magenta,
         };
 
+        private Color baseColor;
+
         protected override void OnCreate()
         {
             base.OnCreate();
+            ColorUtility.TryParseHtmlString("#080808FF", out baseColor);
         }
 
         protected override void OnUpdate()
@@ -28,9 +31,9 @@ namespace ECS.Systems
                 var spriteRenderer = EntityManager.GetComponentObject<SpriteRenderer>(entity);
                 Color currentColor = default;
                 if (crowdPerson.ValueRO.LaughScore == 0f)
-                    currentColor = Color.gray;
+                    currentColor = baseColor;
                 else if (crowdPerson.ValueRO.LaughScore < 0.5f)
-                    currentColor = (Color.gray + crowdPerson.ValueRW.MainColor) / 2f;
+                    currentColor = (baseColor + crowdPerson.ValueRW.MainColor) / 2f;
                 else
                     currentColor = crowdPerson.ValueRW.MainColor;
 
