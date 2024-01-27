@@ -21,6 +21,7 @@ public struct SmallCat : IComponentData
     public double LastInfectionTime;
     public double LastSpriteSetTime;
     public int SpriteIndex;
+    public Color MainColor;
 
     public const float ZPosition = 1f;
 

@@ -7,12 +7,12 @@ namespace ECS.Systems
     {
         private Color[] colors = new[]
         {
-            Color.Lerp(Color.white, Color.red, 0f),
-            Color.Lerp(Color.white, Color.red, 0.25f),
-            Color.Lerp(Color.white, Color.red, 0.5f),
-            Color.Lerp(Color.white, Color.red, 0.75f),
-            Color.Lerp(Color.white, Color.red, 1f),
+            Color.yellow,
+            Color.green,
+            Color.blue,
+            Color.magenta,
         };
+
         protected override void OnCreate()
         {
             base.OnCreate();
@@ -20,11 +20,21 @@ namespace ECS.Systems
 
         protected override void OnUpdate()
         {
-            foreach ((SmallCat crowdPerson, Entity entity) in SystemAPI.Query<SmallCat>().WithEntityAccess())
+            foreach ((RefRW<SmallCat> crowdPerson, Entity entity) in SystemAPI.Query<RefRW<SmallCat>>().WithEntityAccess())
             {
+                if (crowdPerson.ValueRO.MainColor == default)
+                    crowdPerson.ValueRW.MainColor = colors[Random.Range(0, colors.Length)];
+
                 var spriteRenderer = EntityManager.GetComponentObject<SpriteRenderer>(entity);
-                int colorIndex = crowdPerson.LaughScore == 1f ? 4 : ((int)(crowdPerson.LaughScore * 4)) % 4;
-                spriteRenderer.color = colors[colorIndex];
+                Color currentColor = default;
+                if (crowdPerson.ValueRO.LaughScore == 0f)
+                    currentColor = Color.gray;
+                else if (crowdPerson.ValueRO.LaughScore < 0.5f)
+                    currentColor = (Color.gray + crowdPerson.ValueRW.MainColor) / 2f;
+                else
+                    currentColor = crowdPerson.ValueRW.MainColor;
+
+                spriteRenderer.color = currentColor;
             }
         }
     }
