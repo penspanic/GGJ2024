@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UI;
 
 public class MainScene : MonoBehaviour 
 {
@@ -38,6 +39,7 @@ public class MainScene : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             curtain.gameObject.SetActive(true);
             LoadNextGame();
+            ScreenFade.Instance.FadeIn();
         }
         else
         {
@@ -123,6 +125,7 @@ public class MainScene : MonoBehaviour
             yield return new WaitForSeconds(3f);
             yield return StartCoroutine(curtain.ShowCredit());
             yield return new WaitForSeconds(2f);
+            ScreenFade.Instance.FadeIn();
             SceneManager.LoadScene("StartScene");
             yield break;
         }

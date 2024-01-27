@@ -89,10 +89,10 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
         if (callbackInit)
             return;
 
-        callbackInit = true;
-
         if(MainScene.Instance is null)
             return;
+
+        callbackInit = true;
         MainScene.Instance.OnScoreChanged += OnMainScoreChanged;
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,14 +13,26 @@ public class StartScene : MonoBehaviour
     public GameObject creditButton;
     public CanvasGroup creditPanelGroup;
     private bool isCreditAnimation = false;
+    private bool isSceneChanging = false;
 
     private void Awake()
     {
         creditButton.gameObject.SetActive(CreditController.IsCreditMenuVisible());
+        ScreenFade.Instance.FadeIn();
     }
 
-    public void OnStartGame() 
+    public void OnStartGame()
     {
+        if (isSceneChanging)
+            return;
+        isSceneChanging = true;
+
+        StartCoroutine(StartGameRoutine());
+    }
+
+    private IEnumerator StartGameRoutine()
+    {
+        yield return ScreenFade.Instance.FadeOutRoutine();
         SceneManager.LoadScene(MAIN_SCENE);
     }
 

@@ -15,6 +15,9 @@ public class Paralax : MonoBehaviour
     }
     void Update()
     {
-        transform.position =  new Vector3( Screen.width / 2 - (Input.mousePosition.x - Screen.width / 2) * (intensity / 10), transform.position.y, 0);
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = originalPos + new Vector3(-mouseWorldPos.x * intensity, -mouseWorldPos.y * intensity, 0);
+
+        //transform.position =  new Vector3( Screen.width / 2 - (Input.mousePosition.x - Screen.width / 2) * (intensity / 10), transform.position.y, 0);
     }
 }
