@@ -3,6 +3,7 @@ using Unity.Mathematics;
 
 public struct CrowdPerson : IComponentData
 {
+    public float LaughScore;
 }
 
 public struct Grabbed : IComponentData

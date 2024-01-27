@@ -1,4 +1,7 @@
+using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Physics.Aspects;
 using UnityEngine;
 
 namespace ECS.Systems
@@ -16,6 +19,13 @@ namespace ECS.Systems
         {
             if (Input.GetMouseButton(0))
                 return;
+
+            foreach (Entity entity in grabbedQuery.ToEntityArray(Allocator.Temp))
+            {
+                var rigidBodyAspect = SystemAPI.GetAspect<RigidBodyAspect>(entity);
+                rigidBodyAspect.IsKinematic = false;
+                rigidBodyAspect.LinearVelocity = float3.zero;
+            }
 
             EntityManager.RemoveComponent<Grabbed>(grabbedQuery);
         }

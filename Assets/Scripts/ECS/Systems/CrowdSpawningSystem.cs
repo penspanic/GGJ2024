@@ -1,5 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
+using Unity.Physics.Aspects;
 using Unity.Transforms;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -15,7 +17,6 @@ public partial class CrowdSpawningSystem : SystemBase
     protected override void OnUpdate()
     {
         var spawner = SystemAPI.GetSingleton<CrowdSpawner>();
-        var prefabBuffer = SystemAPI.GetSingletonBuffer<CrowdPrefab>();
         // // spawn crowds in the collider area
         // spawner.colliderRef.LoadAsync();
         // bool loadResult = spawner.colliderRef.WaitForCompletion();
@@ -35,6 +36,8 @@ public partial class CrowdSpawningSystem : SystemBase
         int maxTry = 10000;
         for (int i = 0; i < spawner.spawnCount; i++)
         {
+            var prefabBuffer = SystemAPI.GetSingletonBuffer<CrowdPrefab>();
+
             // 무작위 위치 생성
             Vector2 randomPosition = new Vector2(
                 Random.Range(aabb.Min.x, aabb.Max.x),
@@ -45,10 +48,15 @@ public partial class CrowdSpawningSystem : SystemBase
             // if (collider.OverlapPoint(randomPosition))
             {
                 // Collider 내부에 군중 생성
+                // TODO: refactoring
                 Entity prefabEntity = prefabBuffer[Random.Range(0, prefabBuffer.Length)].value;
-                Entity crowdMember = EntityManager.Instantiate(prefabEntity);
-                var transformRW = SystemAPI.GetComponentRW<LocalTransform>(crowdMember);
+                Entity crowdMemberEntity = EntityManager.Instantiate(prefabEntity);
+                EntityManager.AddComponent<PhysicsMassOverride>(crowdMemberEntity);
+                var transformRW = SystemAPI.GetComponentRW<LocalTransform>(crowdMemberEntity);
                 transformRW.ValueRW.Position = new float3(randomPosition.x, randomPosition.y, 0);
+                var rigidBodyAspect = SystemAPI.GetAspect<RigidBodyAspect>(crowdMemberEntity);
+                //rigidBodyAspect.Inertia = new float3(0, 0, 0);
+
             }
             // else
             // {

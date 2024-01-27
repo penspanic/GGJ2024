@@ -2,6 +2,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
+using Unity.Physics.Aspects;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -44,6 +45,8 @@ public partial class GrabCrowdSystem : SystemBase
             {
                 offset = worldPosition - EntityManager.GetComponentData<LocalTransform>(distanceHit.Entity).Position
             });
+            var rigidBodyAspect = SystemAPI.GetAspect<RigidBodyAspect>(distanceHit.Entity);
+            rigidBodyAspect.IsKinematic = true;
         }
 
         ecb.Playback(EntityManager);
