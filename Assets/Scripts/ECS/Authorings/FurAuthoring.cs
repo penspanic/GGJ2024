@@ -11,3 +11,9 @@ public class FurAuthoring : MonoBehaviour
         }
     }
 }
+
+
+public struct CatFurStatus : IComponentData
+{
+    public float LastTouchTime;
+}

@@ -12,10 +12,12 @@ namespace ECS.Systems
         {
             base.OnCreate();
             RequireForUpdate<Grabbed>();
+            EntityManager.CreateSingleton<CatFurStatus>();
         }
 
         protected override void OnUpdate()
         {
+            bool isGrabbed = false;
             //using var ecb = new EntityCommandBuffer(Allocator.Temp);
             // Grabbed된 Fur 들을 마우스 포지션에 따라 이동시킨다.
             foreach ((Grabbed grabbed, RefRW<LocalTransform> localTransformRW, Entity entity) in SystemAPI.Query<Grabbed, RefRW<LocalTransform>>().WithEntityAccess())
@@ -24,6 +26,14 @@ namespace ECS.Systems
                 var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
                 worldPosition.z = 0f;
                 localTransformRW.ValueRW.Position = new float3(worldPosition) - grabbed.offset;
+                isGrabbed = true;
+            }
+
+            if (isGrabbed)
+            {
+                var catFurStatus = SystemAPI.GetSingleton<CatFurStatus>();
+                catFurStatus.LastTouchTime = UnityEngine.Time.time;
+                SystemAPI.SetSingleton(catFurStatus);
             }
         }
     }
