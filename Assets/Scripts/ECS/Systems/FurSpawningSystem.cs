@@ -41,7 +41,7 @@ public partial class FurSpawningSystem : SystemBase
     }
 
     private void Spawn() {
-        var aabb = new AABB { Center = new float3(0, 0, 0), Extents = new float3(1, 1, 0) };
+        var aabb = new AABB { Center = new float3(0, -1.45f, 0), Extents = new float3(1, 1, 0) };
 
         var prefabBuffer = SystemAPI.GetSingletonBuffer<FurPrefab>();
 
