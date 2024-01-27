@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class SmallCatAuthoring : MonoBehaviour
@@ -37,17 +38,39 @@ public struct SmallCat : IComponentData
 public struct CatState : IComponentData
 {
     public CatStateType State;
+    public double StateStartTime;
     public double StateEndTime;
+
+    public float StateDuration => (float)(StateEndTime - StateStartTime);
 }
 
 public enum CatStateType
 {
     Unknown,
+    Stop,
     Idle,
     Walk,
     Jump
 }
 
-public struct CatIdle : IComponentData { }
-public struct CatWalk : IComponentData { }
-public struct CatJump : IComponentData { }
+public struct CatIdle : IComponentData
+{
+    public float2 startPosition;
+
+    public const float Speed = 5f;
+    public const float Amplitude = 0.1f;
+}
+
+public struct CatWalk : IComponentData
+{
+    public float2 direction;
+
+    public const float Speed = 1f;
+}
+
+public struct CatJump : IComponentData
+{
+    public float2 startPosition;
+    public float2 targetPosition;
+    public float jumpHeight;
+}

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6994342890986191502}
   - component: {fileID: 1007228040793769678}
   - component: {fileID: 8188371252466820253}
+  - component: {fileID: 3338216975878984861}
   m_Layer: 0
   m_Name: Cat1
   m_TagString: Fur
@@ -291,5 +292,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca09e7d3d5414f0585451d65258a04ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3338216975878984861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2271025014761913050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf0c5c2e35d489b85fa61d9083392d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

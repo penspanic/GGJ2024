@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Physics.Aspects;
+using Unity.Transforms;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ECS.Systems
 {
@@ -9,9 +13,9 @@ namespace ECS.Systems
     {
         private static readonly Dictionary<CatStateType, float> probabilities = new()
         {
-            { CatStateType.Idle, 0.5f },
-            { CatStateType.Walk, 0.4f },
-            { CatStateType.Jump, 0.1f }
+            { CatStateType.Idle, 0.3f },
+            { CatStateType.Walk, 0.5f },
+            { CatStateType.Jump, 0.2f }
         };
 
         protected override void OnUpdate()
@@ -21,7 +25,7 @@ namespace ECS.Systems
             foreach ((SmallCat smallCat, RefRW<CatState> catStateRW, Entity entity) in SystemAPI.Query<SmallCat, RefRW<CatState>>().WithEntityAccess())
             {
                 var state = catStateRW.ValueRO;
-                if (state.StateEndTime < time)
+                if (state.StateEndTime != 0 && state.StateEndTime > time)
                     continue;
 
                 var stateType = SelectNextState(time, state.State, out double endTime);
@@ -34,32 +38,68 @@ namespace ECS.Systems
                 return;
 
             using var ecb = new EntityCommandBuffer(Allocator.Temp);
-            // foreach ((Entity entity, CatStateType state) in changed.GetKeyValueArrays(Allocator.Temp))
-            // {
-            //     switch (state)
-            //     {
-            //         case CatStateType.Idle:
-            //             ecb.AddComponent<CatIdle>(entity);
-            //             ecb.RemoveComponent<CatWalk>(entity);
-            //             ecb.RemoveComponent<CatJump>(entity);
-            //             break;
-            //         case CatStateType.Walk:
-            //             ecb.AddComponent<CatWalk>(entity);
-            //             ecb.RemoveComponent<CatIdle>(entity);
-            //             ecb.RemoveComponent<CatJump>(entity);
-            //             break;
-            //         case CatStateType.Jump:
-            //             ecb.AddComponent<CatJump>(entity);
-            //             ecb.RemoveComponent<CatIdle>(entity);
-            //             ecb.RemoveComponent<CatWalk>(entity);
-            //             break;
-            //     }
-            // }
+            using var enumerator = changed.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                Entity entity = enumerator.Current.Key;
+                CatStateType state = enumerator.Current.Value;
+                var startPos = SystemAPI.GetComponent<LocalTransform>(entity).Position.xy;
+                var rigidBodyAspect = SystemAPI.GetAspect<RigidBodyAspect>(entity);
+                rigidBodyAspect.LinearVelocity = float3.zero;
+                var stateRW = SystemAPI.GetComponentRW<CatState>(entity);
+                stateRW.ValueRW.StateStartTime = time;
+                switch (state)
+                {
+                    case CatStateType.Stop:
+                    {
+                        rigidBodyAspect.IsKinematic = false;
+                        ecb.RemoveComponent<CatIdle>(entity);
+                        ecb.RemoveComponent<CatWalk>(entity);
+                        ecb.RemoveComponent<CatJump>(entity);
+                        break;
+                    }
+                    case CatStateType.Idle:
+                        rigidBodyAspect.IsKinematic = false;
+                        ecb.AddComponent(entity, new CatIdle()
+                        {
+                            startPosition = startPos
+                        });
+                        ecb.RemoveComponent<CatWalk>(entity);
+                        ecb.RemoveComponent<CatJump>(entity);
+                        break;
+                    case CatStateType.Walk:
+                        rigidBodyAspect.IsKinematic = true;
+                        // direction : random 0~360 degree direction
+                        ecb.AddComponent(entity, new CatWalk()
+                        {
+                            direction = Random.insideUnitCircle.normalized
+                        });
+                        ecb.RemoveComponent<CatIdle>(entity);
+                        ecb.RemoveComponent<CatJump>(entity);
+                        break;
+                    case CatStateType.Jump:
+                        ecb.AddComponent(entity, new CatJump()
+                        {
+                            startPosition = startPos,
+                            targetPosition = startPos + new float2(Random.Range(-2, 2), Random.Range(-2, 2)),
+                            jumpHeight = Random.Range(0.5f, 1.5f)
+                        });
+                        ecb.RemoveComponent<CatIdle>(entity);
+                        ecb.RemoveComponent<CatWalk>(entity);
+                        break;
+                }
+            }
+            ecb.Playback(EntityManager);
         }
 
         private static CatStateType SelectNextState(double time, CatStateType currentState, out double endTime)
         {
-            // select state by probabilities
+            if (currentState != CatStateType.Stop && currentState != CatStateType.Idle)
+            {
+                currentState = CatStateType.Stop;
+                endTime = time + Random.Range(0.5f, 2f);
+            }
+
             float random = Random.value;
             float sum = 0;
             CatStateType state = CatStateType.Unknown;
@@ -77,7 +117,19 @@ namespace ECS.Systems
             if (state is CatStateType.Unknown)
                 state = CatStateType.Idle;
 
-            endTime = time + Random.Range(1f, 3f);
+            switch (state)
+            {   
+                case CatStateType.Jump:
+                {
+                    endTime = time + Random.Range(0.5f, 1f);
+                    break;
+                }
+                default:
+                {
+                    endTime = time + Random.Range(1f, 3f);
+                    break;
+                }
+            }
             return state;
         }
     }

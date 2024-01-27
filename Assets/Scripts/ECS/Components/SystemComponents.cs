@@ -12,3 +12,7 @@ public struct FurPrefab : IBufferElementData
 {
     public Entity value;
 }
+
+public struct MustInScreen : IComponentData
+{
+}

@@ -35,9 +35,9 @@ public partial class FurSpawningSystem : SystemBase
 
         spawnInterval = 0.1f;
 
-        for(int i = 0; i < 2; i++) {
-            Spawn();
-        }
+        // for(int i = 0; i < 2; i++) {
+        //     Spawn();
+        // }
     }
 
     private void Spawn() {
