@@ -5,20 +5,21 @@ namespace ECS.Systems
 {
     public partial class CatColorSystem : SystemBase
     {
-        private Color[] colors = new[]
-        {
-            Color.yellow,
-            Color.green,
-            Color.blue,
-            Color.magenta,
-        };
+        private Color[] colors = null;
 
         private Color baseColor;
 
         protected override void OnCreate()
         {
             base.OnCreate();
-            ColorUtility.TryParseHtmlString("#080808FF", out baseColor);
+
+            ColorUtility.TryParseHtmlString("#1F1F1FFF", out baseColor);
+            ColorUtility.TryParseHtmlString("#A1FEFFFF", out var color1);
+            ColorUtility.TryParseHtmlString("#FEFF8DFF", out var color2);
+            ColorUtility.TryParseHtmlString("#FFa1E6FF", out var color3);
+            ColorUtility.TryParseHtmlString("#A5A1FFFF", out var color4);
+            ColorUtility.TryParseHtmlString("#FF6A6AFF", out var color5);
+            colors = new[] { color1, color2, color3, color4, color5 };
         }
 
         protected override void OnUpdate()
