@@ -13,6 +13,7 @@ namespace ECS.Systems
         {
             base.OnCreate();
             grabbedQuery = GetEntityQuery(typeof(Grabbed));
+            RequireForUpdate<Grabbed>();
         }
 
         protected override void OnUpdate()

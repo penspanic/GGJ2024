@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb3ea0ddd8d4bb4b22e7864c9e20d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCount: 5000
+  spawnCount: 2000
 --- !u!4 &1622250935
 Transform:
   m_ObjectHideFlags: 0
