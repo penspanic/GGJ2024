@@ -116,8 +116,7 @@ public class MainScene : MonoBehaviour
 
     private int currentGameIndex = -1;
     private IEnumerator LoadNextGameRoutine() {
-        if (currentGameIndex == 1) // 임시 테스트
-        //if (currentGameIndex == 3)
+        if (currentGameIndex == 3) // 임시 테스트
         {
             curtain.AllEnd();
             OnGameClear();
@@ -138,7 +137,10 @@ public class MainScene : MonoBehaviour
             nextSceneName = "CatBelly";
         if (currentGameIndex == 0)
             nextSceneName = "CatFishing";
-        // else if (currentGameIndex == 1)
+        if (currentGameIndex == 1)
+            nextSceneName = "CatHuh";
+        if (currentGameIndex == 2)
+            nextSceneName = "CatPolite";
 
         ++currentGameIndex;
 

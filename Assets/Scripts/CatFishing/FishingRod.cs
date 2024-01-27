@@ -30,6 +30,8 @@ public class FishingRod : MonoBehaviour
             if (nextSceneRequested)
                 return;
             nextSceneRequested = true;
+
+            MainScene.Instance.Score += 100;
             MainScene.Instance.Invoke("LoadNextGame", 2f);
         }
     }
