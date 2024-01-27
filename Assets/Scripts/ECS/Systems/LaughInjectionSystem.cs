@@ -9,12 +9,14 @@ namespace ECS.Systems
     public partial class LaughInjectionSystem : SystemBase
     {
         private NativeList<DistanceHit> overlapResults;
+        private EntityArchetype effectReqArcheType;
         protected override void OnCreate()
         {
             base.OnCreate();
             RequireForUpdate<PhysicsWorldSingleton>();
             RequireForUpdate<CrowdSettings>();
             overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
+            effectReqArcheType = EntityManager.CreateArchetype(ComponentType.ReadOnly<LolEffectRequest>());
         }
 
         protected override void OnDestroy()
@@ -49,6 +51,8 @@ namespace ECS.Systems
                 var smallCat = EntityManager.GetComponentData<SmallCat>(distanceHit.Entity);
                 smallCat.LaughScore = math.min(smallCat.LaughScore + 0.1f, 1f);
                 ecb.SetComponent(distanceHit.Entity, smallCat);
+                var effectReq = ecb.CreateEntity(effectReqArcheType);
+                ecb.SetComponent(effectReq, new LolEffectRequest { targetPosition = distanceHit.Position });
             }
             ecb.Playback(EntityManager);
         }

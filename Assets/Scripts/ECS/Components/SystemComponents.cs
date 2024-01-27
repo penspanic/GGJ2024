@@ -21,3 +21,8 @@ public struct FurPrefab : IBufferElementData
 public struct MustInScreen : IComponentData
 {
 }
+
+public struct LifeTime : IComponentData
+{
+    public double endTime;
+}
