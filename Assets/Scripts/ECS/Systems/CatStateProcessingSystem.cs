@@ -26,7 +26,7 @@ namespace ECS.Systems
                 // move sin graph
                 var time = SystemAPI.Time.ElapsedTime - catState.StateStartTime;
                 var pos = catIdle.startPosition + new float2(0, math.sin((float)time * catIdle.speed) * catIdle.amplitude * (catIdle.reverse ? -1 : 1));
-                var newPos = new float3(pos.x, pos.y, 0);
+                var newPos = new float3(pos.x, pos.y, SmallCat.ZPosition);
                 if (smallCatZone.aabb.Contains(newPos) is false)
                     continue;
 
@@ -41,7 +41,7 @@ namespace ECS.Systems
                 float stateTotalTime = (float)catState.StateDuration;
                 float speedFactor = 1 + math.sin(math.lerp(0, math.PI, stateElapsed / stateTotalTime)) * 2;
                 float2 delta = catWalk.directionWithSpeed * SystemAPI.Time.DeltaTime * speedFactor;
-                var newPosition = transformRW.ValueRW.Position + new float3(delta, 0);
+                var newPosition = transformRW.ValueRW.Position + new float3(delta, SmallCat.ZPosition);
                 if (smallCatZone.aabb.Contains(newPosition) is false)
                     continue;
 
@@ -54,11 +54,11 @@ namespace ECS.Systems
                 float stateElapsed = (float)(SystemAPI.Time.ElapsedTime - catState.StateStartTime);
                 float posX = math.lerp(catJump.startPosition.x, catJump.targetPosition.x, stateElapsed / catState.StateDuration);
                 float posY = catJump.startPosition.y + catJump.jumpHeight * math.sin(math.lerp(0, math.PI, stateElapsed / catState.StateDuration));
-                var newPos = new float3(posX, posY, 0);
+                var newPos = new float3(posX, posY, SmallCat.ZPosition);
                 if (smallCatZone.aabb.Contains(newPos) is false)
                     continue;
 
-                transformRW.ValueRW.Position = new float3(posX, posY, 0);
+                transformRW.ValueRW.Position = newPos;
             }
         }
     }

@@ -34,7 +34,7 @@ namespace ECS.Systems
             if (Input.GetMouseButtonDown(1) is false)
                 return;
 
-            worldPosition.z = 0;
+            worldPosition.z = SmallCat.ZPosition;
             overlapResults.Clear();
             var collisionFilter = new CollisionFilter()
             {

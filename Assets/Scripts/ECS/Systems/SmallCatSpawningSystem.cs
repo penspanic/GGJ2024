@@ -58,6 +58,6 @@ public partial class SmallCatSpawningSystem : SystemBase
         Entity furEntity = EntityManager.Instantiate(prefabEntity);
         EntityManager.AddComponent<PhysicsMassOverride>(furEntity);
         var transformRW = SystemAPI.GetComponentRW<LocalTransform>(furEntity);
-        transformRW.ValueRW.Position = new float3(randomPosition.x, randomPosition.y, 0);
+        transformRW.ValueRW.Position = new float3(randomPosition.x, randomPosition.y, SmallCat.ZPosition);
     }
 }

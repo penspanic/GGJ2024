@@ -38,25 +38,16 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
         if (totalSmallCats == 0)
             return;
 
-        int catIndex = UnityEngine.Random.Range(0, totalSmallCats);
-        crowdQuery.CalculateChunkCount();
+        // 2.327
+        using var crowds = crowdQuery.ToEntityArray(Allocator.Temp);
         Entity selected = default;
-        foreach (ArchetypeChunk archetypeChunk in crowdQuery.ToArchetypeChunkArray(Allocator.Temp))
+        while (true)
         {
-            // select chunk that contains catIndex
-            if (catIndex < archetypeChunk.Count)
-            {
-                // get entity from chunk
-                Entity* entities = archetypeChunk.GetEntityDataPtrRO(entityTypeHandle);
-                entities += catIndex;
-                selected = *entities;
+            int catIndex = UnityEngine.Random.Range(0, totalSmallCats);
+            selected = crowds[catIndex];
+            // 무대에 가리는 놈은 제외하도록.
+            if (SystemAPI.GetComponent<LocalTransform>(selected).Position.y > 2.327f)
                 break;
-            }
-            else
-            {
-                // if catIndex is not in this chunk, subtract chunk count from catIndex
-                catIndex -= archetypeChunk.Count;
-            }
         }
 
         float3 position = SystemAPI.GetComponent<LocalTransform>(selected).Position;
