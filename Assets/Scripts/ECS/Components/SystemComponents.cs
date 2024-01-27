@@ -18,6 +18,11 @@ public struct FurPrefab : IBufferElementData
     public Entity value;
 }
 
+public struct CrowdPrefab : IBufferElementData
+{
+    public Entity value;
+}
+
 public struct MustInScreen : IComponentData
 {
 }

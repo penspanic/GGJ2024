@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -50,14 +51,21 @@ public class MainScene : MonoBehaviour
     public int Score 
     {
         get => score;
-        set {
+        set
+        {
+            int previousValue = score;
             score = value;
+            OnScoreChanged?.Invoke(previousValue, score);
             if(scoreText) 
             {
                 scoreText.text = score.ToString();
             }
         }
     }
+
+    public delegate void OnScoreChangedDelegate(int previousScore, int newScore);
+
+    public event Action<int, int> OnScoreChanged;
 
     private void Start() 
     {

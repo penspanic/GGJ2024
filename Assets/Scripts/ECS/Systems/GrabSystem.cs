@@ -12,7 +12,6 @@ public partial class GrabSystem : SystemBase
     protected override void OnCreate()
     {
         base.OnCreate();
-        RequireForUpdate<GrabSettings>();
         RequireForUpdate<SimulationSingleton>();
         RequireForUpdate<PhysicsWorldSingleton>();
         overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
@@ -26,7 +25,6 @@ public partial class GrabSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        var grabSettings = SystemAPI.GetSingleton<GrabSettings>();
         var simulation = SystemAPI.GetSingleton<SimulationSingleton>();
         var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
 
@@ -36,7 +34,12 @@ public partial class GrabSystem : SystemBase
 
         worldPosition.z = 0;
         overlapResults.Clear();
-        if (physicsWorldSingleton.CollisionWorld.OverlapSphere(worldPosition, radius: 0.35f, ref overlapResults, grabSettings.filter) is false)
+        var filter = new CollisionFilter()
+        {
+            BelongsTo = 1 >> 0,
+            CollidesWith = 1 >> 0,
+        };
+        if (physicsWorldSingleton.CollisionWorld.OverlapSphere(worldPosition, radius: 0.35f, ref overlapResults, filter) is false)
             return;
 
         Debug.Log("Grabbed " + overlapResults.Length + " entities");

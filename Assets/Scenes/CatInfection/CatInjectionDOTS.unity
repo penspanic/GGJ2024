@@ -307,7 +307,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 320096413}
-  - component: {fileID: 320096412}
   - component: {fileID: 320096414}
   m_Layer: 0
   m_Name: Settings
@@ -316,84 +315,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &320096412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 320096411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c5516c91ce441de958205f07e5e06b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BelongsTo:
-    Category00: 0
-    Category01: 0
-    Category02: 1
-    Category03: 0
-    Category04: 0
-    Category05: 0
-    Category06: 0
-    Category07: 0
-    Category08: 0
-    Category09: 0
-    Category10: 0
-    Category11: 0
-    Category12: 0
-    Category13: 0
-    Category14: 0
-    Category15: 0
-    Category16: 0
-    Category17: 0
-    Category18: 0
-    Category19: 0
-    Category20: 0
-    Category21: 0
-    Category22: 0
-    Category23: 0
-    Category24: 0
-    Category25: 0
-    Category26: 0
-    Category27: 0
-    Category28: 0
-    Category29: 0
-    Category30: 0
-    Category31: 0
-  CollidesWith:
-    Category00: 0
-    Category01: 0
-    Category02: 1
-    Category03: 0
-    Category04: 0
-    Category05: 0
-    Category06: 0
-    Category07: 0
-    Category08: 0
-    Category09: 0
-    Category10: 0
-    Category11: 0
-    Category12: 0
-    Category13: 0
-    Category14: 0
-    Category15: 0
-    Category16: 0
-    Category17: 0
-    Category18: 0
-    Category19: 0
-    Category20: 0
-    Category21: 0
-    Category22: 0
-    Category23: 0
-    Category24: 0
-    Category25: 0
-    Category26: 0
-    Category27: 0
-    Category28: 0
-    Category29: 0
-    Category30: 0
-    Category31: 0
 --- !u!4 &320096413
 Transform:
   m_ObjectHideFlags: 0
@@ -681,7 +602,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 800115468}
-  - component: {fileID: 800115467}
+  - component: {fileID: 800115469}
   m_Layer: 0
   m_Name: Prefabs
   m_TagString: Untagged
@@ -689,20 +610,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &800115467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800115466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6163ea83a1642efa931ad8a1d9531e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crowds:
-  - {fileID: 2271025014761913050, guid: 23cf4cb287ad1e846aedde4b613c2cd7, type: 3}
 --- !u!4 &800115468
 Transform:
   m_ObjectHideFlags: 0
@@ -718,6 +625,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &800115469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800115466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f3c5e32cbd438fb79dce8ccb4546e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crowds:
+  - {fileID: 2271025014761913050, guid: 23cf4cb287ad1e846aedde4b613c2cd7, type: 3}
 --- !u!1 &1217768727
 GameObject:
   m_ObjectHideFlags: 0

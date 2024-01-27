@@ -13,7 +13,7 @@ public partial class SmallCatSpawningSystem : SystemBase
 
     protected override void OnCreate()
     {
-        RequireForUpdate<FurPrefab>();
+        RequireForUpdate<CrowdPrefab>();
         RequireForUpdate<SmallCatSpawner>();
         RequireForUpdate<SmallCatZone>();
     }
@@ -46,7 +46,7 @@ public partial class SmallCatSpawningSystem : SystemBase
     private void Spawn()
     {
         var zone = SystemAPI.GetSingleton<SmallCatZone>();
-        var prefabBuffer = SystemAPI.GetSingletonBuffer<FurPrefab>();
+        var prefabBuffer = SystemAPI.GetSingletonBuffer<CrowdPrefab>();
 
         // 무작위 위치 생성
         float2 randomPosition = new float2(

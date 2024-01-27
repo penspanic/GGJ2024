@@ -1,21 +1,20 @@
 using Unity.Entities;
 using UnityEngine;
 
-public class PrefabsAuthoring : MonoBehaviour
+public class CrowdPrefabsAuthoring : MonoBehaviour
 {
     public GameObject[] crowds;
-    public class PrefabsAuthoringBaker : Baker<PrefabsAuthoring>
+    public class PrefabsAuthoringBaker : Baker<CrowdPrefabsAuthoring>
     {
-        public override void Bake(PrefabsAuthoring authoring)
+        public override void Bake(CrowdPrefabsAuthoring authoring)
         {
             var entity = GetEntity(TransformUsageFlags.Dynamic);
-            var buffer = AddBuffer<FurPrefab>(entity);
+            var buffer = AddBuffer<CrowdPrefab>(entity);
             foreach (var crowd in authoring.crowds)
             {
                 var prefab = GetEntity(crowd, TransformUsageFlags.Dynamic);
-                buffer.Add(new FurPrefab { value = prefab });
+                buffer.Add(new CrowdPrefab { value = prefab });
             }
         }
     }
 }
-
