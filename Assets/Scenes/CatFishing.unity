@@ -2433,7 +2433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &1975116356
 Camera:
   m_ObjectHideFlags: 0
@@ -2605,7 +2605,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.62408817, y: -0.0018348044}
+  m_ConnectedAnchor: {x: 0.62408817, y: -0.0018347175}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0

@@ -37,7 +37,7 @@ public class MainScene : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             curtain.gameObject.SetActive(true);
-            StartCoroutine(StartRoutine());
+            LoadNextGame();
         }
         else
         {
@@ -45,10 +45,12 @@ public class MainScene : MonoBehaviour
         }
     }
 
-    private IEnumerator StartRoutine()
+    private void Update()
     {
-        yield return new WaitForSeconds(1f);
-        curtain.Down();
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            LoadNextGame();
+        }
     }
 
     private readonly string GAME_SCENE_PREFIX = "GameScene";
@@ -76,25 +78,6 @@ public class MainScene : MonoBehaviour
 
     public event Action<int, int> OnScoreChanged;
 
-    private void Start() 
-    {
-        if(sceneButtonsRoot == null) 
-        {
-            //Debug.LogError("sceneButtonsRoot is null");
-            return;
-        }
-        var buttons = sceneButtonsRoot.GetComponentsInChildren<Button>();
-        foreach (var button in buttons) 
-        {
-            button.onClick.AddListener(() => OnSceneButtonClicked(button.name));
-        }
-    }
-
-    private void OnSceneButtonClicked(string sceneName) 
-    {
-        LoadAdditiveScene(sceneName);
-    }
-
     public void LoadAdditiveScene(string sceneName)
     {
         StartCoroutine(LoadAdditiveSceneRoutine(sceneName));
@@ -107,9 +90,8 @@ public class MainScene : MonoBehaviour
             yield return StartCoroutine(UnloadScene(lastLoadedSceneName));
         }
 
-        var sceneFullName = GAME_SCENE_PREFIX + sceneName;
-        SceneManager.LoadScene(sceneFullName, LoadSceneMode.Additive);
-        this.lastLoadedSceneName = sceneFullName;
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        this.lastLoadedSceneName = sceneName;
     }
 
     private IEnumerator UnloadScene(string sceneName)
@@ -132,18 +114,37 @@ public class MainScene : MonoBehaviour
         StartCoroutine(LoadNextGameRoutine());
     }
 
+    private int currentGameIndex = -1;
     private IEnumerator LoadNextGameRoutine() {
-        // curtain animation
-
-        yield return new WaitForSeconds(3f); 
-
-        var sceneName = SceneManager.GetActiveScene().name;
-        var sceneNumber = int.Parse(sceneName.Substring(GAME_SCENE_PREFIX.Length));
-        sceneNumber++;
-        if (sceneNumber > 3) {
-            sceneNumber = 1;
+        if (currentGameIndex == 1) // 임시 테스트
+        //if (currentGameIndex == 3)
+        {
+            curtain.AllEnd();
+            OnGameClear();
+            yield return new WaitForSeconds(3f);
+            yield return StartCoroutine(curtain.ShowCredit());
+            yield return new WaitForSeconds(2f);
+            SceneManager.LoadScene("StartScene");
+            yield break;
         }
-        LoadAdditiveScene(sceneNumber.ToString());
+        // curtain animation
+        if (currentGameIndex != -1)
+        {
+            curtain.Close();
+            yield return new WaitForSeconds(1.5f);
+        }
+        string nextSceneName = null;
+        if (currentGameIndex == -1)
+            nextSceneName = "CatBelly";
+        if (currentGameIndex == 0)
+            nextSceneName = "CatFishing";
+        // else if (currentGameIndex == 1)
+
+        ++currentGameIndex;
+
+        LoadAdditiveScene(nextSceneName);
+        yield return new WaitForSeconds(1f);
+        curtain.Down();
     }
 
     public void OnGameClear()

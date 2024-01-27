@@ -153,7 +153,7 @@ public class FurCatController : MonoBehaviour
             // happyFace.SetActive(true);
 
             animator.SetInteger("State", 1);
-            AudioManager.Instance.PlaySound("meow1");
+            AudioManager.Instance?.PlaySound("meow1");
         }
 
         StartCoroutine(EndScrub());

@@ -12,9 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainScene.unity
     guid: 4244e909ab10442bb81df8c68159fc8d
   - enabled: 1
-    path: Assets/Scenes/GameScene1.unity
-    guid: ec54a79cbd084496db34c670b33c2b6a
+    path: Assets/Scenes/CatBelly.unity
+    guid: 57f2889391f4aff4db4d27908f8a2bed
   - enabled: 1
-    path: Assets/Scenes/GameScene2.unity
-    guid: c2fffde4dea9848b0a33b7b0ddeed40e
+    path: Assets/Scenes/CatFishing.unity
+    guid: 8cfd65b2bd4eb4477beca6243a925518
   m_configObjects: {}

@@ -13,6 +13,7 @@ public class FishingRod : MonoBehaviour
         startTime = Time.time;
     }
 
+    private bool nextSceneRequested = false;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // check 5sec
@@ -26,7 +27,10 @@ public class FishingRod : MonoBehaviour
             collision.gameObject.SetActive(false);
             hangingCat.SetActive(true);
 
-            // 몇 초 뒤에 다음씬
+            if (nextSceneRequested)
+                return;
+            nextSceneRequested = true;
+            MainScene.Instance.Invoke("LoadNextGame", 2f);
         }
     }
 }
