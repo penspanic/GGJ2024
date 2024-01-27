@@ -10,7 +10,7 @@ public class SmallCatAuthoring : MonoBehaviour
         {
             var entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent<SmallCat>(entity);
-            AddComponent(entity, new CatState() { State = CatStateType.Idle });
+            AddComponent(entity, new CatState() { State = CatStateType.Unknown });
         }
     }
 }
@@ -20,19 +20,17 @@ public struct SmallCat : IComponentData
     public float LaughScore;
     public double LastInfectionTime;
 
-    public readonly bool CanInfect(double time)
+    public readonly bool CanInfect(double time, double threshold)
     {
-        if (LaughScore < 0.5f)
+        if (LaughScore < threshold)
             return false;
 
         double elapsed = time - LastInfectionTime;
         // 0처리는 InfectionSystem Job에서 값 설정해서 어쩔수 없이 둠.
-        if (elapsed != 0 && elapsed < 0.5f)
+        if (elapsed != 0 && elapsed < threshold)
             return false;
         return true;
     }
-
-    public readonly bool CanBeInfected() => LaughScore < 0.5f;
 }
 
 public struct CatState : IComponentData
@@ -47,6 +45,7 @@ public struct CatState : IComponentData
 public enum CatStateType
 {
     Unknown,
+    Ready,
     Stop,
     Idle,
     Walk,
@@ -64,8 +63,6 @@ public struct CatIdle : IComponentData
 public struct CatWalk : IComponentData
 {
     public float2 direction;
-
-    public const float Speed = 1f;
 }
 
 public struct CatJump : IComponentData

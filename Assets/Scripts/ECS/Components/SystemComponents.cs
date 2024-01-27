@@ -4,8 +4,13 @@ using UnityEngine;
 
 public struct FurSpawner : IComponentData
 {
-    public WeakObjectReference<PolygonCollider2D> colliderRef;
     public int spawnCount;
+}
+
+public struct SmallCatSpawner : IComponentData
+{
+    public int spawnCount;
+    public int maxSpawnCountInFrame;
 }
 
 public struct FurPrefab : IBufferElementData

@@ -13,6 +13,7 @@ namespace ECS.Systems
         {
             base.OnCreate();
             RequireForUpdate<PhysicsWorldSingleton>();
+            RequireForUpdate<CrowdSettings>();
             overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
         }
 
@@ -33,7 +34,12 @@ namespace ECS.Systems
 
             worldPosition.z = 0;
             overlapResults.Clear();
-            if (physicsWorldSingleton.CollisionWorld.OverlapSphere(worldPosition, radius: 0.2f, ref overlapResults, CollisionFilter.Default) is false)
+            var collisionFilter = new CollisionFilter()
+            {
+                BelongsTo = 1 << 2,
+                CollidesWith = 1 << 2,
+            };
+            if (physicsWorldSingleton.CollisionWorld.OverlapSphere(worldPosition, radius: 0.2f, ref overlapResults, collisionFilter) is false)
                 return;
 
             Debug.Log("Injected laugh score to " + overlapResults.Length + " entities");

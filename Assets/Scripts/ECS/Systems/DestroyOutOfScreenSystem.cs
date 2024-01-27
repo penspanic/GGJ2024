@@ -9,7 +9,6 @@ public partial class DestroyOutOfScreenSystem : SystemBase
     private float margin;
     protected override void OnCreate()
     {
-
         RequireForUpdate<MustInScreen>();
     }
 

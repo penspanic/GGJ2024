@@ -14,6 +14,7 @@ namespace ECS.Systems
         {
             RequireForUpdate<SimulationSingleton>();
             RequireForUpdate<PhysicsWorldSingleton>();
+            RequireForUpdate<CrowdSettings>();
             overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
             catLookup = GetComponentLookup<SmallCat>();
         }
@@ -31,6 +32,7 @@ namespace ECS.Systems
             Dependency = new CollisionEventJob()
             {
                 catLookup = catLookup,
+                settings = SystemAPI.GetSingleton<CrowdSettings>(),
                 time = SystemAPI.Time.ElapsedTime
             }.Schedule(simulation, Dependency);
         }
@@ -38,6 +40,8 @@ namespace ECS.Systems
         public struct CollisionEventJob : ICollisionEventsJob
         {
             public ComponentLookup<SmallCat> catLookup;
+            public CrowdSettings settings;
+
             public double time;
             public void Execute(CollisionEvent collisionEvent)
             {
@@ -49,18 +53,18 @@ namespace ECS.Systems
                 RefRW<SmallCat> crowdPersonA = catLookup.GetRefRW(collisionEvent.EntityA);
                 RefRW<SmallCat> crowdPersonB = catLookup.GetRefRW(collisionEvent.EntityB);
 
-                if (crowdPersonA.ValueRO.CanInfect(time))
+                if (crowdPersonA.ValueRO.CanInfect(time, settings.CanInfectThreshold))
                 {
                     crowdPersonA.ValueRW.LastInfectionTime = time;
-                    if (crowdPersonB.ValueRO.CanBeInfected())
+                    if (crowdPersonB.ValueRO.LaughScore < settings.BeInfectedThreshold)
                     {
                         crowdPersonB.ValueRW.LaughScore += 0.1f;
                     }
                 }
-                if (crowdPersonB.ValueRO.CanInfect(time))
+                if (crowdPersonB.ValueRO.CanInfect(time, settings.CanInfectThreshold))
                 {
                     crowdPersonB.ValueRW.LastInfectionTime = time;
-                    if (crowdPersonA.ValueRO.CanBeInfected())
+                    if (crowdPersonA.ValueRO.LaughScore < settings.BeInfectedThreshold)
                     {
                         crowdPersonA.ValueRW.LaughScore += 0.1f;
                     }

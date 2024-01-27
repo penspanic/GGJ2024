@@ -13,14 +13,20 @@ namespace ECS.Systems
     {
         private static readonly Dictionary<CatStateType, float> probabilities = new()
         {
-            { CatStateType.Idle, 0.3f },
+            { CatStateType.Idle, 0.5f },
             { CatStateType.Walk, 0.5f },
-            { CatStateType.Jump, 0.2f }
+            // { CatStateType.Jump, 0.2f }
         };
+
+        protected override void OnCreate()
+        {
+            RequireForUpdate<CrowdSettings>();
+        }
 
         protected override void OnUpdate()
         {
             double time = SystemAPI.Time.ElapsedTime;
+            var settings = SystemAPI.GetSingleton<CrowdSettings>();
             var changed = new NativeHashMap<Entity, CatStateType>(1000, Allocator.Temp);
             foreach ((SmallCat smallCat, RefRW<CatState> catStateRW, Entity entity) in SystemAPI.Query<SmallCat, RefRW<CatState>>().WithEntityAccess())
             {
@@ -28,7 +34,7 @@ namespace ECS.Systems
                 if (state.StateEndTime != 0 && state.StateEndTime > time)
                     continue;
 
-                var stateType = SelectNextState(time, state.State, out double endTime);
+                var stateType = SelectNextState(settings, time, smallCat.LaughScore, state.State, out double endTime);
                 catStateRW.ValueRW.State = stateType;
                 catStateRW.ValueRW.StateEndTime = endTime;
                 changed[entity] = stateType;
@@ -50,6 +56,7 @@ namespace ECS.Systems
                 stateRW.ValueRW.StateStartTime = time;
                 switch (state)
                 {
+                    case CatStateType.Ready:
                     case CatStateType.Stop:
                     {
                         rigidBodyAspect.IsKinematic = false;
@@ -92,14 +99,26 @@ namespace ECS.Systems
             ecb.Playback(EntityManager);
         }
 
-        private static CatStateType SelectNextState(double time, CatStateType currentState, out double endTime)
+        private static CatStateType SelectNextState(in CrowdSettings settings, double time, float laughScore, CatStateType currentState, out double endTime)
         {
-            if (currentState != CatStateType.Stop && currentState != CatStateType.Idle)
+            if (currentState == CatStateType.Unknown)
             {
-                currentState = CatStateType.Stop;
-                endTime = time + Random.Range(0.5f, 2f);
+                endTime = time + 3f;
+                return CatStateType.Ready;
             }
 
+            if (laughScore < 0.5f)
+            {
+                endTime = time + 1f;
+                return CatStateType.Idle;
+            }
+
+            if (currentState != CatStateType.Stop && currentState != CatStateType.Idle)
+            {
+                endTime = time + Random.Range(0.5f, 2f);
+                return CatStateType.Stop;
+            }
+    
             float random = Random.value;
             float sum = 0;
             CatStateType state = CatStateType.Unknown;
@@ -118,7 +137,17 @@ namespace ECS.Systems
                 state = CatStateType.Idle;
 
             switch (state)
-            {   
+            {
+                case CatStateType.Idle:
+                {
+                    endTime = time + Random.Range(settings.IdleStatusDurationRange.x, settings.IdleStatusDurationRange.y);
+                    break;
+                }
+                case CatStateType.Walk:
+                {
+                    endTime = time + Random.Range(settings.MoveStatusDurationRange.x, settings.MoveStatusDurationRange.y);
+                    break;
+                }
                 case CatStateType.Jump:
                 {
                     endTime = time + Random.Range(0.5f, 1f);

@@ -15,6 +15,7 @@ public partial class GrabSystem : SystemBase
         RequireForUpdate<GrabSettings>();
         RequireForUpdate<SimulationSingleton>();
         RequireForUpdate<PhysicsWorldSingleton>();
+        RequireForUpdate<SmallCatZone>();
         overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
     }
 

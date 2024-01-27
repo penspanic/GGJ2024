@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ECS.Systems
 {
-    public partial class GrabbedFurMoveSystem : SystemBase
+    public partial class GrabbedMoveSystem : SystemBase
     {
         protected override void OnCreate()
         {
