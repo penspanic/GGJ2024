@@ -19,8 +19,6 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
         RequireForUpdate<PhysicsWorldSingleton>();
         overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
         effectReqArcheType = EntityManager.CreateArchetype(ComponentType.ReadOnly<LolEffectRequest>());
-
-        MainScene.Instance.OnScoreChanged += OnMainScoreChanged;
     }
 
     protected override void OnDestroy()
@@ -85,7 +83,13 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
         ecb.Playback(EntityManager);
     }
 
+    private bool callbackInit;
     protected override void OnUpdate()
     {
+        if (callbackInit)
+            return;
+
+        callbackInit = true;
+        MainScene.Instance.OnScoreChanged += OnMainScoreChanged;
     }
 }
