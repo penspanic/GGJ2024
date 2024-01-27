@@ -9,10 +9,13 @@ namespace ECS.Systems
     public partial class LaughScoreInfectionSystem : SystemBase
     {
         private NativeList<DistanceHit> overlapResults;
+        private ComponentLookup<CrowdPerson> crowdPersonLookup;
         protected override void OnCreate()
         {
+            RequireForUpdate<SimulationSingleton>();
             RequireForUpdate<PhysicsWorldSingleton>();
             overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
+            crowdPersonLookup = GetComponentLookup<CrowdPerson>();
         }
 
         protected override void OnDestroy()
@@ -23,32 +26,45 @@ namespace ECS.Systems
 
         protected override void OnUpdate()
         {
-            var physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
-            NativeHashSet<Entity> overlapEntities = new NativeHashSet<Entity>(100, Allocator.Temp);
-            foreach ((CrowdPerson crowdPerson, RefRO<LocalTransform> localTransform, Entity entity) in SystemAPI.Query<CrowdPerson, RefRO<LocalTransform>>().WithEntityAccess())
+            crowdPersonLookup.Update(this);
+            var simulation = SystemAPI.GetSingleton<SimulationSingleton>();
+            Dependency = new CollisionEventJob()
             {
-                if (crowdPerson.CanInfect() is false)
+                crowdPersonLookup = crowdPersonLookup,
+                time = SystemAPI.Time.ElapsedTime
+            }.Schedule(simulation, Dependency);
+        }
+
+        public struct CollisionEventJob : ICollisionEventsJob
+        {
+            public ComponentLookup<CrowdPerson> crowdPersonLookup;
+            public double time;
+            public void Execute(CollisionEvent collisionEvent)
+            {
+                if (crowdPersonLookup.HasComponent(collisionEvent.EntityA) is false)
+                    return;
+                if (crowdPersonLookup.HasComponent(collisionEvent.EntityB) is false)
                     return;
 
-                float3 position = localTransform.ValueRO.Position;
-                overlapResults.Clear();
-                physicsWorld.OverlapSphere(position, radius: 1f, ref overlapResults, CollisionFilter.Default);
-                foreach (DistanceHit distanceHit in overlapResults)
+                RefRW<CrowdPerson> crowdPersonA = crowdPersonLookup.GetRefRW(collisionEvent.EntityA);
+                RefRW<CrowdPerson> crowdPersonB = crowdPersonLookup.GetRefRW(collisionEvent.EntityB);
+
+                if (crowdPersonA.ValueRO.CanInfect(time))
                 {
-                    overlapEntities.Add(distanceHit.Entity);
+                    crowdPersonA.ValueRW.LastInfectionTime = time;
+                    if (crowdPersonB.ValueRO.CanBeInfected())
+                    {
+                        crowdPersonB.ValueRW.LaughScore += 0.1f;
+                    }
                 }
-            }
-
-            foreach (Entity entity in overlapEntities)
-            {
-                if (EntityManager.HasComponent<CrowdPerson>(entity) is false)
-                    continue;
-                
-                var crowdPersonRW = SystemAPI.GetComponentRW<CrowdPerson>(entity);
-                if (crowdPersonRW.ValueRW.CanBeInfected() is false)
-                    continue;
-
-                crowdPersonRW.ValueRW.LaughScore += 0.1f;
+                if (crowdPersonB.ValueRO.CanInfect(time))
+                {
+                    crowdPersonB.ValueRW.LastInfectionTime = time;
+                    if (crowdPersonA.ValueRO.CanBeInfected())
+                    {
+                        crowdPersonA.ValueRW.LaughScore += 0.1f;
+                    }
+                }
             }
         }
     }
