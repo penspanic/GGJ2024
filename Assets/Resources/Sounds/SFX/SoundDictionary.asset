@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b3b33e3ba7446c5a53d6194b63e82c, type: 3}
+  m_Name: SoundDictionary
+  m_EditorClassIdentifier: 
+  soundList:
+  - key: angry1
+    audioClip: {fileID: 8300000, guid: e64d2e35b543f3040a686d8a6070fee5, type: 3}
+  - key: angry2
+    audioClip: {fileID: 8300000, guid: 519ca97c1c4123a41938e3d375f70d36, type: 3}
+  - key: angry3
+    audioClip: {fileID: 8300000, guid: daec17cad3407254fad8375aeac0ba25, type: 3}
+  - key: happy
+    audioClip: {fileID: 8300000, guid: 3d3a57bfed24c1c489bd6990103726d4, type: 3}
+  - key: hard_purr
+    audioClip: {fileID: 8300000, guid: 28d727a0620e6af479077ac78556fbd6, type: 3}
+  - key: huh
+    audioClip: {fileID: 8300000, guid: aebecfad06b68ba48833d2e8da21cef8, type: 3}
+  - key: light_purr
+    audioClip: {fileID: 8300000, guid: 9f9e07ecec5f47543a99df4ae60a993f, type: 3}
+  - key: meow1
+    audioClip: {fileID: 8300000, guid: 8f517eab5268d98499524c9f3451d943, type: 3}
+  - key: meow2
+    audioClip: {fileID: 8300000, guid: b7a42baa5cd319f458be1869086ad03f, type: 3}
+  - key: swoosh1
+    audioClip: {fileID: 8300000, guid: 6782817f04d57d4468d5238afab3c6f8, type: 3}
+  - key: swoosh2
+    audioClip: {fileID: 8300000, guid: 9b3b8ab15e6b5394a97c7b9c961ed02e, type: 3}
+  - key: swoosh3
+    audioClip: {fileID: 8300000, guid: db48b98074a13c54d8e4ba5e6bf46976, type: 3}
+  - key: swoosh4
+    audioClip: {fileID: 8300000, guid: 04a6a309918f3ab4b821bca13f38a531, type: 3}
