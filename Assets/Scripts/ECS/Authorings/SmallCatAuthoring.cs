@@ -7,7 +7,9 @@ public class SmallCatAuthoring : MonoBehaviour
     {
         public override void Bake(SmallCatAuthoring authoring)
         {
-            AddComponent<SmallCat>(GetEntity(TransformUsageFlags.Dynamic));
+            var entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent<SmallCat>(entity);
+            AddComponent(entity, new CatState() { State = CatStateType.Idle });
         }
     }
 }
@@ -31,3 +33,21 @@ public struct SmallCat : IComponentData
 
     public readonly bool CanBeInfected() => LaughScore < 0.5f;
 }
+
+public struct CatState : IComponentData
+{
+    public CatStateType State;
+    public double StateEndTime;
+}
+
+public enum CatStateType
+{
+    Unknown,
+    Idle,
+    Walk,
+    Jump
+}
+
+public struct CatIdle : IComponentData { }
+public struct CatWalk : IComponentData { }
+public struct CatJump : IComponentData { }
