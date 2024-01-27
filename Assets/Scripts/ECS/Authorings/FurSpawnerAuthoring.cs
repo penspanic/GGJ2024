@@ -2,15 +2,15 @@ using Unity.Entities;
 using Unity.Entities.Content;
 using UnityEngine;
 
-public class CrowdSpawnerAuthoring : MonoBehaviour
+public class FurSpawnerAuthoring : MonoBehaviour
 {
     public int spawnCount;
-    public class Baker : Baker<CrowdSpawnerAuthoring>
+    public class Baker : Baker<FurSpawnerAuthoring>
     {
-        public override void Bake(CrowdSpawnerAuthoring authoring)
+        public override void Bake(FurSpawnerAuthoring authoring)
         {
             var entity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent(entity, new CrowdSpawner()
+            AddComponent(entity, new FurSpawner()
             {
                 // colliderRef = authoring.colliderRef,
                 spawnCount = authoring.spawnCount

@@ -9,11 +9,11 @@ public class PrefabsAuthoring : MonoBehaviour
         public override void Bake(PrefabsAuthoring authoring)
         {
             var entity = GetEntity(TransformUsageFlags.Dynamic);
-            var buffer = AddBuffer<CrowdPrefab>(entity);
+            var buffer = AddBuffer<FurPrefab>(entity);
             foreach (var crowd in authoring.crowds)
             {
                 var prefab = GetEntity(crowd, TransformUsageFlags.Dynamic);
-                buffer.Add(new CrowdPrefab { value = prefab });
+                buffer.Add(new FurPrefab { value = prefab });
             }
         }
     }

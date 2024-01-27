@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ECS.Systems
 {
-    public partial class GrabbedCrowdMoveSystem : SystemBase
+    public partial class GrabbedFurMoveSystem : SystemBase
     {
         protected override void OnCreate()
         {
@@ -17,7 +17,7 @@ namespace ECS.Systems
         protected override void OnUpdate()
         {
             //using var ecb = new EntityCommandBuffer(Allocator.Temp);
-            // Grabbed된 CrowdPerson 들을 마우스 포지션에 따라 이동시킨다.
+            // Grabbed된 Fur 들을 마우스 포지션에 따라 이동시킨다.
             foreach ((Grabbed grabbed, RefRW<LocalTransform> localTransformRW, Entity entity) in SystemAPI.Query<Grabbed, RefRW<LocalTransform>>().WithEntityAccess())
             {
                 var mousePosition = Input.mousePosition;

@@ -6,21 +6,21 @@ using Unity.Transforms;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public partial class CrowdSpawningSystem : SystemBase
+public partial class FurSpawningSystem : SystemBase
 {
     private float spawnInterval = 0;
     private bool isInitialSpawn = false;
 
     protected override void OnCreate()
     {
-        RequireForUpdate<CrowdPrefab>();
-        RequireForUpdate<CrowdSpawner>();
+        RequireForUpdate<FurPrefab>();
+        RequireForUpdate<FurSpawner>();
     }
 
     protected override void OnUpdate()
     {
         if(isInitialSpawn is false) {
-            var spawner = SystemAPI.GetSingleton<CrowdSpawner>();
+            var spawner = SystemAPI.GetSingleton<FurSpawner>();
             for (int i = 0; i < spawner.spawnCount; i++)
             {
                 Spawn();
@@ -43,7 +43,7 @@ public partial class CrowdSpawningSystem : SystemBase
     private void Spawn() {
         var aabb = new AABB { Center = new float3(0, 0, 0), Extents = new float3(1, 1, 0) };
 
-        var prefabBuffer = SystemAPI.GetSingletonBuffer<CrowdPrefab>();
+        var prefabBuffer = SystemAPI.GetSingletonBuffer<FurPrefab>();
 
         // 무작위 위치 생성
         Vector2 randomPosition = new Vector2(
@@ -52,10 +52,10 @@ public partial class CrowdSpawningSystem : SystemBase
         );
 
         Entity prefabEntity = prefabBuffer[Random.Range(0, prefabBuffer.Length)].value;
-        Entity crowdMemberEntity = EntityManager.Instantiate(prefabEntity);
-        EntityManager.AddComponent<PhysicsMassOverride>(crowdMemberEntity);
-        var transformRW = SystemAPI.GetComponentRW<LocalTransform>(crowdMemberEntity);
+        Entity furEntity = EntityManager.Instantiate(prefabEntity);
+        EntityManager.AddComponent<PhysicsMassOverride>(furEntity);
+        var transformRW = SystemAPI.GetComponentRW<LocalTransform>(furEntity);
         transformRW.ValueRW.Position = new float3(randomPosition.x, randomPosition.y, 0);
-        var rigidBodyAspect = SystemAPI.GetAspect<RigidBodyAspect>(crowdMemberEntity);
+        var rigidBodyAspect = SystemAPI.GetAspect<RigidBodyAspect>(furEntity);
     }
 }

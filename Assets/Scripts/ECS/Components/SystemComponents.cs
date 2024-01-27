@@ -2,13 +2,13 @@ using Unity.Entities;
 using Unity.Entities.Content;
 using UnityEngine;
 
-public struct CrowdSpawner : IComponentData
+public struct FurSpawner : IComponentData
 {
     public WeakObjectReference<PolygonCollider2D> colliderRef;
     public int spawnCount;
 }
 
-public struct CrowdPrefab : IBufferElementData
+public struct FurPrefab : IBufferElementData
 {
     public Entity value;
 }

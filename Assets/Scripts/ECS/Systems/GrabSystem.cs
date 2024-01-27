@@ -1,3 +1,4 @@
+using ECS.Systems;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -5,12 +6,13 @@ using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 
-public partial class GrabCrowdSystem : SystemBase
+public partial class GrabSystem : SystemBase
 {
     private NativeList<DistanceHit> overlapResults;
     protected override void OnCreate()
     {
         base.OnCreate();
+        RequireForUpdate<GrabSettings>();
         RequireForUpdate<SimulationSingleton>();
         RequireForUpdate<PhysicsWorldSingleton>();
         overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
@@ -24,6 +26,7 @@ public partial class GrabCrowdSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        var grabSettings = SystemAPI.GetSingleton<GrabSettings>();
         var simulation = SystemAPI.GetSingleton<SimulationSingleton>();
         var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
 
@@ -33,23 +36,13 @@ public partial class GrabCrowdSystem : SystemBase
 
         worldPosition.z = 0;
         overlapResults.Clear();
-        var collisionFilter = new CollisionFilter()
-        {
-            BelongsTo = 1 << 0,
-            CollidesWith = 1 << 0
-        };
-        if (physicsWorldSingleton.CollisionWorld.OverlapSphere(worldPosition, radius: 0.35f, ref overlapResults, collisionFilter) is false)
+        if (physicsWorldSingleton.CollisionWorld.OverlapSphere(worldPosition, radius: 0.35f, ref overlapResults, grabSettings.filter) is false)
             return;
 
         Debug.Log("Grabbed " + overlapResults.Length + " entities");
         using var ecb = new EntityCommandBuffer(Allocator.Temp);
         foreach (DistanceHit distanceHit in overlapResults)
         {
-            // var collider = physicsWorldSingleton.CollisionWorld.Bodies[distanceHit.RigidBodyIndex].Collider;
-            // // check if collider tag is "Fur"
-            // if (collider.Value.Value != 0x46757200)
-            //     continue;
-
             ecb.AddComponent<Grabbed>(distanceHit.Entity, new Grabbed()
             {
                 offset = worldPosition - EntityManager.GetComponentData<LocalTransform>(distanceHit.Entity).Position
