@@ -90,6 +90,9 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
             return;
 
         callbackInit = true;
+
+        if(MainScene.Instance is null)
+            return;
         MainScene.Instance.OnScoreChanged += OnMainScoreChanged;
     }
 }
