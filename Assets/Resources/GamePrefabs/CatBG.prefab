@@ -601,6 +601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958109725a293411fb47f07c0f8cdd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feverSlider: {fileID: 0}
+  angrySlider: {fileID: 0}
   angryFace: {fileID: 7143972076379413270}
   feverFace: {fileID: 0}
   normalFace: {fileID: 5198284389305330341}
@@ -941,7 +943,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -10
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 0.92684007, b: 0.6745283, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
