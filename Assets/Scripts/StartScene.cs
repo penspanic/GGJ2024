@@ -17,6 +17,7 @@ public class StartScene : MonoBehaviour
 
     private void Awake()
     {
+        BGMController.Instance.PlayBGM();
         creditButton.gameObject.SetActive(CreditController.IsCreditMenuVisible());
         ScreenFade.Instance.FadeIn();
     }

@@ -3,7 +3,19 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance { get; private set; }
+    public static AudioManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = Instantiate(Resources.Load<GameObject>("AudioManager")).GetComponent<AudioManager>();
+            }
+            return instance;
+        }
+    }
+
+    private static AudioManager instance;
 
     public SoundDictionarySO soundDictionary;
 
@@ -11,16 +23,9 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            InitializeAudioSource();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+        InitializeAudioSource();
     }
 
     private void InitializeAudioSource()
