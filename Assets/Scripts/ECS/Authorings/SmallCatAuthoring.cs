@@ -1,7 +1,18 @@
 using Unity.Entities;
-using Unity.Mathematics;
+using UnityEngine;
 
-public struct Fur : IComponentData
+public class SmallCatAuthoring : MonoBehaviour
+{
+    public class Baker : Baker<SmallCatAuthoring>
+    {
+        public override void Bake(SmallCatAuthoring authoring)
+        {
+            AddComponent<SmallCat>(GetEntity(TransformUsageFlags.Dynamic));
+        }
+    }
+}
+
+public struct SmallCat : IComponentData
 {
     public float LaughScore;
     public double LastInfectionTime;
@@ -19,9 +30,4 @@ public struct Fur : IComponentData
     }
 
     public readonly bool CanBeInfected() => LaughScore < 0.5f;
-}
-
-public struct Grabbed : IComponentData
-{
-    public float3 offset;
 }

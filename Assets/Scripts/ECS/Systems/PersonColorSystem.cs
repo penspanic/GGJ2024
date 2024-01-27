@@ -20,7 +20,7 @@ namespace ECS.Systems
 
         protected override void OnUpdate()
         {
-            foreach ((CrowdPerson crowdPerson, Entity entity) in SystemAPI.Query<CrowdPerson>().WithEntityAccess())
+            foreach ((Fur crowdPerson, Entity entity) in SystemAPI.Query<Fur>().WithEntityAccess())
             {
                 var spriteRenderer = EntityManager.GetComponentObject<SpriteRenderer>(entity);
                 int colorIndex = crowdPerson.LaughScore == 1f ? 4 : ((int)(crowdPerson.LaughScore * 4)) % 4;

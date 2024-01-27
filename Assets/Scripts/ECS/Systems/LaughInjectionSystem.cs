@@ -40,9 +40,9 @@ namespace ECS.Systems
             using var ecb = new EntityCommandBuffer(Allocator.Temp);
             foreach (DistanceHit distanceHit in overlapResults)
             {
-                var crowdPerson = EntityManager.GetComponentData<CrowdPerson>(distanceHit.Entity);
-                crowdPerson.LaughScore = math.min(crowdPerson.LaughScore + 0.1f, 1f);
-                ecb.SetComponent(distanceHit.Entity, crowdPerson);
+                var smallCat = EntityManager.GetComponentData<SmallCat>(distanceHit.Entity);
+                smallCat.LaughScore = math.min(smallCat.LaughScore + 0.1f, 1f);
+                ecb.SetComponent(distanceHit.Entity, smallCat);
             }
             ecb.Playback(EntityManager);
         }

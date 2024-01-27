@@ -7,7 +7,7 @@ public class FurAuthoring : MonoBehaviour
     {
         public override void Bake(FurAuthoring authoring)
         {
-            AddComponent<CrowdPerson>(GetEntity(TransformUsageFlags.Dynamic));
+            AddComponent<Fur>(GetEntity(TransformUsageFlags.Dynamic));
         }
     }
 }

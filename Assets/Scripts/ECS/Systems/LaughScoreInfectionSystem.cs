@@ -9,13 +9,13 @@ namespace ECS.Systems
     public partial class LaughScoreInfectionSystem : SystemBase
     {
         private NativeList<DistanceHit> overlapResults;
-        private ComponentLookup<CrowdPerson> crowdPersonLookup;
+        private ComponentLookup<Fur> crowdPersonLookup;
         protected override void OnCreate()
         {
             RequireForUpdate<SimulationSingleton>();
             RequireForUpdate<PhysicsWorldSingleton>();
             overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
-            crowdPersonLookup = GetComponentLookup<CrowdPerson>();
+            crowdPersonLookup = GetComponentLookup<Fur>();
         }
 
         protected override void OnDestroy()
@@ -37,7 +37,7 @@ namespace ECS.Systems
 
         public struct CollisionEventJob : ICollisionEventsJob
         {
-            public ComponentLookup<CrowdPerson> crowdPersonLookup;
+            public ComponentLookup<Fur> crowdPersonLookup;
             public double time;
             public void Execute(CollisionEvent collisionEvent)
             {
@@ -46,8 +46,8 @@ namespace ECS.Systems
                 if (crowdPersonLookup.HasComponent(collisionEvent.EntityB) is false)
                     return;
 
-                RefRW<CrowdPerson> crowdPersonA = crowdPersonLookup.GetRefRW(collisionEvent.EntityA);
-                RefRW<CrowdPerson> crowdPersonB = crowdPersonLookup.GetRefRW(collisionEvent.EntityB);
+                RefRW<Fur> crowdPersonA = crowdPersonLookup.GetRefRW(collisionEvent.EntityA);
+                RefRW<Fur> crowdPersonB = crowdPersonLookup.GetRefRW(collisionEvent.EntityB);
 
                 if (crowdPersonA.ValueRO.CanInfect(time))
                 {
