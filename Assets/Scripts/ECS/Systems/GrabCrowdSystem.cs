@@ -33,17 +33,22 @@ public partial class GrabCrowdSystem : SystemBase
 
         worldPosition.z = 0;
         overlapResults.Clear();
-        if (physicsWorldSingleton.CollisionWorld.OverlapSphere(worldPosition, radius: 0.35f, ref overlapResults, CollisionFilter.Default) is false)
+        var collisionFilter = new CollisionFilter()
+        {
+            BelongsTo = 1 << 0,
+            CollidesWith = 1 << 0
+        };
+        if (physicsWorldSingleton.CollisionWorld.OverlapSphere(worldPosition, radius: 0.35f, ref overlapResults, collisionFilter) is false)
             return;
 
         Debug.Log("Grabbed " + overlapResults.Length + " entities");
         using var ecb = new EntityCommandBuffer(Allocator.Temp);
         foreach (DistanceHit distanceHit in overlapResults)
         {
-            var collider = physicsWorldSingleton.CollisionWorld.Bodies[distanceHit.RigidBodyIndex].Collider;
-            // check if collider tag is "Fur"
-            if (collider.Value.Value != 0x46757200)
-                continue;
+            // var collider = physicsWorldSingleton.CollisionWorld.Bodies[distanceHit.RigidBodyIndex].Collider;
+            // // check if collider tag is "Fur"
+            // if (collider.Value.Value != 0x46757200)
+            //     continue;
 
             ecb.AddComponent<Grabbed>(distanceHit.Entity, new Grabbed()
             {
