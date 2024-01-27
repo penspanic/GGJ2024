@@ -48,7 +48,7 @@ public partial class GrabSystem : SystemBase
         {
             ecb.AddComponent<Grabbed>(distanceHit.Entity, new Grabbed()
             {
-                offset = worldPosition - EntityManager.GetComponentData<LocalTransform>(distanceHit.Entity).Position
+                offset = worldPosition.xy - EntityManager.GetComponentData<LocalTransform>(distanceHit.Entity).Position.xy
             });
         }
 

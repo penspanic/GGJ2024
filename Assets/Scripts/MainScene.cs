@@ -136,4 +136,9 @@ public class MainScene : MonoBehaviour
         }
         LoadAdditiveScene(sceneNumber.ToString());
     }
+
+    public void OnGameClear()
+    {
+        CreditController.SetCreditMenuVisible();
+    }
 }
