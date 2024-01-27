@@ -9,6 +9,7 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
     private EntityQuery crowdQuery;
     private EntityTypeHandle entityTypeHandle;
     private NativeList<DistanceHit> overlapResults;
+    private EntityArchetype effectReqArcheType;
 
     protected override void OnCreate()
     {
@@ -17,6 +18,8 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
         entityTypeHandle = GetEntityTypeHandle();
         RequireForUpdate<PhysicsWorldSingleton>();
         overlapResults = new NativeList<DistanceHit>(Allocator.Persistent);
+        effectReqArcheType = EntityManager.CreateArchetype(ComponentType.ReadOnly<LolEffectRequest>());
+
         MainScene.Instance.OnScoreChanged += OnMainScoreChanged;
     }
 
@@ -81,6 +84,8 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
                 laughScore = 0.3f;
 
             smallCat.LaughScore = math.min(smallCat.LaughScore + laughScore, 1f);
+            var effectReq = ecb.CreateEntity(effectReqArcheType);
+            ecb.SetComponent(effectReq, new LolEffectRequest() { targetPosition = distanceHit.Position });
             ecb.SetComponent(distanceHit.Entity, smallCat);
         }
         ecb.Playback(EntityManager);
