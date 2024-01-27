@@ -29,7 +29,8 @@ namespace ECS.Systems
             double time = SystemAPI.Time.ElapsedTime;
             var settings = SystemAPI.GetSingleton<CrowdSettings>();
             var changed = new NativeHashMap<Entity, CatStateType>(1000, Allocator.Temp);
-            foreach ((SmallCat smallCat, RefRW<CatState> catStateRW, Entity entity) in SystemAPI.Query<SmallCat, RefRW<CatState>>().WithEntityAccess())
+            foreach ((SmallCat smallCat, RefRW<CatState> catStateRW, Entity entity) in
+                     SystemAPI.Query<SmallCat, RefRW<CatState>>().WithNone<Grabbed>().WithEntityAccess())
             {
                 var state = catStateRW.ValueRO;
                 if (state.StateEndTime != 0 && state.StateEndTime > time)
