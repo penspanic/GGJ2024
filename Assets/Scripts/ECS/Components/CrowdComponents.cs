@@ -7,5 +7,5 @@ public struct Fur : IComponentData
 
 public struct Grabbed : IComponentData
 {
-    public float3 offset;
+    public float2 offset;
 }

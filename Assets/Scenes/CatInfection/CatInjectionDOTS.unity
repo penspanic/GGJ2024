@@ -308,6 +308,7 @@ GameObject:
   m_Component:
   - component: {fileID: 320096413}
   - component: {fileID: 320096414}
+  - component: {fileID: 320096415}
   m_Layer: 0
   m_Name: Settings
   m_TagString: Untagged
@@ -344,6 +345,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInfectThreshold: 0.5
   beInfectedThreshold: 0.4
+  laughSpriteAnimationThreshold: 0.5
+  laughPointDecreasePerSecond: 0.005
   idleStatusSpeedRange:
     x: 0.5
     y: 2
@@ -359,6 +362,23 @@ MonoBehaviour:
   moveStatusDurationRange:
     x: 0.4
     y: 1.3
+--- !u!114 &320096415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320096411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11486339a4a94e8fa5166adc43754e3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleSprite1: Sprites/Crowd/crowd_idle_00
+  idleSprite2: Sprites/Crowd/crowd_idle_01
+  laughSprite1: Sprites/Crowd/crowd_laugh_00
+  laughSprite2: Sprites/Crowd/crowd_laugh_01
+  spriteDuration: 0.5
 --- !u!1 &546800083
 GameObject:
   m_ObjectHideFlags: 0

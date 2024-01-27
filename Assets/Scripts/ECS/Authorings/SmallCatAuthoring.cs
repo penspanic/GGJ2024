@@ -19,6 +19,9 @@ public struct SmallCat : IComponentData
 {
     public float LaughScore;
     public double LastInfectionTime;
+    public double LastSpriteSetTime;
+    public int SpriteIndex;
+
     public const float ZPosition = 1f;
 
     public readonly bool CanInfect(double time, double threshold)

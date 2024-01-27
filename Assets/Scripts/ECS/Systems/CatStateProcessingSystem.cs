@@ -41,7 +41,8 @@ namespace ECS.Systems
                 float stateTotalTime = (float)catState.StateDuration;
                 float speedFactor = 1 + math.sin(math.lerp(0, math.PI, stateElapsed / stateTotalTime)) * 2;
                 float2 delta = catWalk.directionWithSpeed * SystemAPI.Time.DeltaTime * speedFactor;
-                var newPosition = transformRW.ValueRW.Position + new float3(delta, SmallCat.ZPosition);
+                var newPosition = transformRW.ValueRW.Position + new float3(delta, 0);
+                newPosition.z = SmallCat.ZPosition;
                 if (smallCatZone.aabb.Contains(newPosition) is false)
                     continue;
 

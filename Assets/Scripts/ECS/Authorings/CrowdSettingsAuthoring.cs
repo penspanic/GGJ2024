@@ -6,6 +6,8 @@ public class CrowdSettingsAuthoring : MonoBehaviour
 {
     public float canInfectThreshold;
     public float beInfectedThreshold;
+    public float laughSpriteAnimationThreshold;
+    public float laughPointDecreasePerSecond;
 
     public float2 idleStatusSpeedRange;
     public float2 idleStatusAmplitudeRange;
@@ -23,6 +25,8 @@ public class CrowdSettingsAuthoring : MonoBehaviour
             {
                 CanInfectThreshold = authoring.canInfectThreshold,
                 BeInfectedThreshold = authoring.beInfectedThreshold,
+                LaughSpriteAnimationThreshold = authoring.laughSpriteAnimationThreshold,
+                LaughPointDecreasePerSecond = authoring.laughPointDecreasePerSecond,
                 IdleStatusSpeedRange = authoring.idleStatusSpeedRange,
                 IdleStatusAmplitudeRange = authoring.idleStatusAmplitudeRange,
                 IdleStatusDurationRange = authoring.idleStatusDurationRange,
@@ -37,6 +41,8 @@ public struct CrowdSettings : IComponentData
 {
     public float CanInfectThreshold;
     public float BeInfectedThreshold;
+    public float LaughSpriteAnimationThreshold;
+    public float LaughPointDecreasePerSecond;
     public float2 IdleStatusSpeedRange;
     public float2 IdleStatusAmplitudeRange;
     public float2 IdleStatusDurationRange;

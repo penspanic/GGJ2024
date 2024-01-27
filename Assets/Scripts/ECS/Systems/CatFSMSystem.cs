@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
@@ -105,65 +106,30 @@ namespace ECS.Systems
 
         private static CatStateType SelectNextState(in CrowdSettings settings, double time, float laughScore, CatStateType currentState, out double endTime)
         {
-            if (currentState == CatStateType.Unknown)
-            {
-                endTime = time + Random.Range(0.5f, 3f);
-                return CatStateType.Ready;
-            }
-
             if (laughScore < 0.5f)
             {
                 endTime = time + Random.Range(0.2f, 1f);
                 return CatStateType.Idle;
             }
 
-            if (currentState != CatStateType.Stop)
+            if (currentState == CatStateType.Unknown)
             {
-                endTime = time + Random.Range(0.5f, 2f);
+                endTime = time + Random.Range(0.5f, 3f);
+                return CatStateType.Ready;
+            }
+            if (currentState == CatStateType.Idle ||
+                currentState == CatStateType.Stop)
+            {
+                endTime = time + Random.Range(settings.MoveStatusDurationRange.x, settings.MoveStatusDurationRange.y);
+                return CatStateType.Walk;
+            }
+            if (currentState == CatStateType.Walk)
+            {
+                endTime = time + Random.Range(0.5f, 1.5f);
                 return CatStateType.Stop;
             }
-    
-            float random = Random.value;
-            float sum = 0;
-            CatStateType state = CatStateType.Unknown;
-            foreach ((CatStateType eachState, float probability) in probabilities)
-            {
-                sum += probability;
-                if (random < sum)
-                {
-                    endTime = time + Random.Range(1f, 3f);
-                    state = eachState;
-                    break;
-                }
-            }
 
-            if (state is CatStateType.Unknown)
-                state = CatStateType.Idle;
-
-            switch (state)
-            {
-                case CatStateType.Idle:
-                {
-                    endTime = time + Random.Range(settings.IdleStatusDurationRange.x, settings.IdleStatusDurationRange.y);
-                    break;
-                }
-                case CatStateType.Walk:
-                {
-                    endTime = time + Random.Range(settings.MoveStatusDurationRange.x, settings.MoveStatusDurationRange.y);
-                    break;
-                }
-                case CatStateType.Jump:
-                {
-                    endTime = time + Random.Range(0.5f, 1f);
-                    break;
-                }
-                default:
-                {
-                    endTime = time + Random.Range(1f, 3f);
-                    break;
-                }
-            }
-            return state;
+            throw new NotImplementedException($"{currentState} not handled!");
         }
     }
 }
