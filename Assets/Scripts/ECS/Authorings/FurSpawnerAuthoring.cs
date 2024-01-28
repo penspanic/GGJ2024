@@ -5,6 +5,7 @@ using UnityEngine;
 public class FurSpawnerAuthoring : MonoBehaviour
 {
     public int spawnCount;
+    public int maxSpawnCountInFrame;
     public class Baker : Baker<FurSpawnerAuthoring>
     {
         public override void Bake(FurSpawnerAuthoring authoring)
@@ -12,8 +13,8 @@ public class FurSpawnerAuthoring : MonoBehaviour
             var entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new FurSpawner()
             {
-                // colliderRef = authoring.colliderRef,
-                spawnCount = authoring.spawnCount
+                spawnCount = authoring.spawnCount,
+                maxSpawnCountInFrame = authoring.maxSpawnCountInFrame
             });
         }
     }

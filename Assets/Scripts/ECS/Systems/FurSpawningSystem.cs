@@ -10,22 +10,27 @@ public partial class FurSpawningSystem : SystemBase
 {
     private float spawnInterval = 0;
     private bool isInitialSpawn = false;
+    private int spawnCount = 0;
+    private EntityQuery furQuery;
 
     protected override void OnCreate()
     {
         RequireForUpdate<FurPrefab>();
         RequireForUpdate<FurSpawner>();
+        furQuery = GetEntityQuery(typeof(Fur));
     }
 
     protected override void OnUpdate()
     {
+        var spawner = SystemAPI.GetSingleton<FurSpawner>();
         if(isInitialSpawn is false) {
-            var spawner = SystemAPI.GetSingleton<FurSpawner>();
-            for (int i = 0; i < spawner.spawnCount; i++)
+            for (int i = 0; i < spawner.maxSpawnCountInFrame && spawnCount < spawner.spawnCount; i++, spawnCount++)
             {
                 Spawn();
             }
-            isInitialSpawn = true;
+
+            if (spawnCount >= spawner.spawnCount)
+                isInitialSpawn = true;
         }
 
         if(spawnInterval > 0) {
@@ -35,13 +40,16 @@ public partial class FurSpawningSystem : SystemBase
 
         spawnInterval = 0.1f;
 
-        // for(int i = 0; i < 2; i++) {
-        //     Spawn();
-        // }
+        int furCount = furQuery.CalculateEntityCount();
+        int needCount = spawner.spawnCount - furCount;
+        for(int i = 0; i < math.min(needCount, 2); i++)
+        {
+            Spawn();
+        }
     }
 
     private void Spawn() {
-        var aabb = new AABB { Center = new float3(0, -1.45f, 0), Extents = new float3(1, 1, 0) };
+        var aabb = new AABB { Center = new float3(0.22f, -2.2f, 0), Extents = new float3(1, 1, 0) };
 
         var prefabBuffer = SystemAPI.GetSingletonBuffer<FurPrefab>();
 

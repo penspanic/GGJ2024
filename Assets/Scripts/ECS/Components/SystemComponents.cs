@@ -5,6 +5,7 @@ using UnityEngine;
 public struct FurSpawner : IComponentData
 {
     public int spawnCount;
+    public int maxSpawnCountInFrame;
 }
 
 public struct SmallCatSpawner : IComponentData
