@@ -13,7 +13,7 @@ public class BananaCat : MonoBehaviour
     private float animationIntervalTimer = 0f;
     private int animationIndex = 0;
 
-    public bool isHit = false;
+    private bool isHit = false;
 
     void Awake()
     {
@@ -22,6 +22,10 @@ public class BananaCat : MonoBehaviour
 
         after1.SetActive(false);
         after2.SetActive(false);
+    }
+
+    public void Hit() {
+        isHit = true;
     }
 
     void Update() {

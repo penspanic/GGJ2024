@@ -141,7 +141,7 @@ public class FurCatController : MonoBehaviour
             animator.SetInteger("State", 2);
         } else {
             // TODO: mouse 나 고양이에 연출?
-            MainScene.Instance.Score += 1;
+            MainScene.Instance.AddScoreMulti(1);
 
             // add fever gauge
             feverGauge += 0.02f;

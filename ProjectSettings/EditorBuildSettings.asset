@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CatHuh.unity
     guid: 54de707d3f11941f89d6e3ca14d907cd
   - enabled: 1
+    path: Assets/Scenes/CatHappy.unity
+    guid: a78690f5f4aaa4dc4b2dbee3b6e5b7ea
+  - enabled: 1
     path: Assets/Scenes/CatPolite.unity
     guid: 7eb393122acef4cd8bcea7d2b0086008
   m_configObjects: {}

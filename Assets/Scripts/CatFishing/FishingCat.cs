@@ -18,7 +18,7 @@ public class FishingCat : MonoBehaviour
 
     private float catInterest = 0f;
 
-    private readonly float catInterestRadius = 3.5f;
+    private readonly float catInterestRadius = 5f;
     private readonly float catJumpRadius = 2.5f;
 
     private readonly float jumpHeight = 3f;
@@ -26,7 +26,7 @@ public class FishingCat : MonoBehaviour
     private readonly float jumpSpeed = 3f;
     private float jumpDestinationY = 0f;
     private float jumpDestinationX = 0f;
-    private bool isJumping = false;
+    public bool isJumping = false;
     private bool isJumpingReady = false;
     
     void Start()

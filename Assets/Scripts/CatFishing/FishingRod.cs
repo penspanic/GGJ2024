@@ -24,6 +24,10 @@ public class FishingRod : MonoBehaviour
 
         if (collision.gameObject.CompareTag("FishingCat"))
         {
+            if(collision.gameObject.GetComponent<FishingCat>().isJumping == false)
+            {
+                return;
+            }
             collision.gameObject.SetActive(false);
             hangingCat.SetActive(true);
 
@@ -31,7 +35,7 @@ public class FishingRod : MonoBehaviour
                 return;
             nextSceneRequested = true;
 
-            MainScene.Instance.Score += 100;
+            MainScene.Instance.AddScoreMulti(5);
             MainScene.Instance.Invoke("LoadNextGame", 2f);
         }
     }

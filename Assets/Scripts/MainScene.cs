@@ -54,6 +54,12 @@ public class MainScene : MonoBehaviour
     private int currentGameIndex = -1;
 
 
+    public void AddScoreMulti(int count) {
+        for(int i = 0; i < count; i++) {
+            Score += 1;
+        }
+    }
+
     private void Reset()
     {
         score = 0;
@@ -127,7 +133,7 @@ public class MainScene : MonoBehaviour
     }
 
     private IEnumerator LoadNextGameRoutine() {
-        if (currentGameIndex == 3) // 임시 테스트
+        if (currentGameIndex == 4) // 임시 테스트
         {
             curtain.AllEnd();
             OnGameClear();
@@ -152,6 +158,8 @@ public class MainScene : MonoBehaviour
         if (currentGameIndex == 1)
             nextSceneName = "CatHuh";
         if (currentGameIndex == 2)
+            nextSceneName = "CatHappy";
+        if (currentGameIndex == 3)
             nextSceneName = "CatPolite";
 
         ++currentGameIndex;

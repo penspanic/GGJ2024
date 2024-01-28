@@ -12,6 +12,7 @@ public class Cucumber : MonoBehaviour
     public Sprite sprite3;
 
     public SpriteRenderer spriteRenderer;
+    private Collider2D collider2D;
 
     private void OnMouseDown()
     {
@@ -27,6 +28,8 @@ public class Cucumber : MonoBehaviour
     void Start() {
         initialRotation = transform.rotation;
         spriteRenderer.sprite = sprite1;
+        collider2D = spriteRenderer.gameObject.GetComponent<Collider2D>();
+        collider2D.enabled = false;
     }
 
     private IEnumerator RotateAndRestoreCoroutine()
@@ -43,17 +46,20 @@ public class Cucumber : MonoBehaviour
             if(elapsed / duration > 0.3f)
             {
                 spriteRenderer.sprite = sprite2;
+                collider2D.enabled = true;
             }
 
             if(elapsed / duration > 0.8f)
             {
                 spriteRenderer.sprite = sprite3;
+                collider2D.enabled = true;
             }
 
             yield return null;
         }
 
         transform.rotation = targetRotation;
+        collider2D.enabled = false;
         yield return new WaitForSeconds(0.4f);
 
         transform.rotation = initialRotation;

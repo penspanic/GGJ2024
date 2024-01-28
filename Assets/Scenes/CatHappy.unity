@@ -218,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body1: {fileID: 1629072765}
   body2: {fileID: 914143703}
+  bananaCat: {fileID: 296218870}
 --- !u!50 &123111127
 Rigidbody2D:
   serializedVersion: 4
@@ -226,14 +227,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123111122}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -244,7 +245,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &193065122
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +382,6 @@ MonoBehaviour:
   normal2: {fileID: 762894271}
   after1: {fileID: 2104453403}
   after2: {fileID: 1034083120}
-  isHit: 0
 --- !u!1 &762894271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,7 +1051,6 @@ GameObject:
   - component: {fileID: 1637491658}
   - component: {fileID: 1637491659}
   - component: {fileID: 1637491660}
-  - component: {fileID: 1637491661}
   m_Layer: 0
   m_Name: Renderer
   m_TagString: Cucumber
@@ -1171,33 +1170,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.14, y: 2.65}
   m_EdgeRadius: 0
---- !u!50 &1637491661
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1637491657}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &1670349511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,9 +1266,9 @@ GameObject:
   - component: {fileID: 1700680406}
   - component: {fileID: 1700680408}
   - component: {fileID: 1700680407}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Cucumber
-  m_TagString: Cucumber
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

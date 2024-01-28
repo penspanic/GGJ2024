@@ -60,7 +60,7 @@ public class PoliteCat : MonoBehaviour
                 return;
             }
 
-            MainScene.Instance.Score += 100;
+            MainScene.Instance.AddScoreMulti(3);
             MainScene.Instance.Invoke("LoadNextGame", 3f);
         }
     }
