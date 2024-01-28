@@ -69,19 +69,22 @@ public class MainScene : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            Reset();
+        if (instance != null)
+            Destroy(instance);
+
+        // if (instance == null)
+        // {
             instance = this;
+            Reset();
             DontDestroyOnLoad(gameObject);
             curtain.gameObject.SetActive(true);
             LoadNextGame();
             ScreenFade.Instance.FadeIn();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //}
+        // else
+        // {
+        //     Destroy(gameObject);
+        // }
     }
 
     private void Update()

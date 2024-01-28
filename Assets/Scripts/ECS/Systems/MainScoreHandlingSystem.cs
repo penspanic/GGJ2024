@@ -58,7 +58,7 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
             BelongsTo = 1 << 2,
             CollidesWith = 1 << 2,
         };
-        if (physicsWorldSingleton.OverlapSphere(position, 0.5f, ref overlapResults, filter) is false)
+        if (physicsWorldSingleton.OverlapSphere(position, 0.3f, ref overlapResults, filter) is false)
             return;
 
         double time = SystemAPI.Time.ElapsedTime;
