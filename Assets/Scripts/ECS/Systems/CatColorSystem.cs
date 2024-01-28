@@ -34,10 +34,7 @@ namespace ECS.Systems
                 if (crowdPerson.ValueRO.LaughScore == 0f)
                     currentColor = baseColor;
                 else if (crowdPerson.ValueRO.LaughScore < 0.5f)
-                    currentColor = (baseColor + crowdPerson.ValueRW.MainColor) / 2f;
-                else
-                    currentColor = crowdPerson.ValueRW.MainColor;
-
+                    currentColor = Color.Lerp(baseColor, crowdPerson.ValueRW.MainColor, crowdPerson.ValueRO.LaughScore * 2f);
                 spriteRenderer.color = currentColor;
             }
         }
