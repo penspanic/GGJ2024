@@ -1103,8 +1103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958109725a293411fb47f07c0f8cdd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  feverSlider: {fileID: 0}
-  angrySlider: {fileID: 0}
   angryFace: {fileID: 1270067454}
   feverFace: {fileID: 0}
   normalFace: {fileID: 959810103}
@@ -1128,7 +1126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &1975116356
 Camera:
   m_ObjectHideFlags: 0

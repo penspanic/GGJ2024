@@ -30,7 +30,7 @@ public class HuhCat : MonoBehaviour
             return;
         }
 
-        MainScene.Instance.AddScoreMulti(3);
+        MainScene.Instance.AddScoreMulti(10);
         AudioManager.Instance.PlaySound("huh");
         MainScene.Instance.Invoke("LoadNextGame", 2f);
     }
