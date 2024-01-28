@@ -57,7 +57,7 @@ public class FishingCat : MonoBehaviour
             }
 
             // idle
-            if(catInterest < 40f) {
+            if(catInterest < 20f) {
                 // 기본적으로 idle
                 catIdle.SetActive(true);
 
@@ -66,7 +66,7 @@ public class FishingCat : MonoBehaviour
                 yield return null;
             }
 
-            if(catInterest >= 70f && distance < catJumpRadius)
+            if(catInterest >= 55f && distance < catJumpRadius)
             {
                 if(isJumping || isJumpingReady)
                 {
@@ -74,20 +74,20 @@ public class FishingCat : MonoBehaviour
                 }
 
                 // fake jump
-                if(catInterest < 100f)
+                if(catInterest < 70f)
                 {
                     yield return StartCoroutine(JumpReady());
                     yield return null;
                 }
 
                 // jump
-                if(catInterest > 100f)
+                if(catInterest > 70f)
                 {
                     yield return StartCoroutine(JumpReady());
                     yield return StartCoroutine(Jump());
                     yield return null;
                 }
-            } else if(catInterest >= 40f)
+            } else if(catInterest >= 20f)
             {
                 MoveTowardsTarget();
             }
