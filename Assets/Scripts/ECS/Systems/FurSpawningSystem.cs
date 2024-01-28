@@ -42,7 +42,7 @@ public partial class FurSpawningSystem : SystemBase
 
         int furCount = furQuery.CalculateEntityCount();
         int needCount = spawner.spawnCount - furCount;
-        for(int i = 0; i < math.min(needCount, 2); i++)
+        for(int i = 0; i < math.min(needCount, 5); i++)
         {
             Spawn();
         }
