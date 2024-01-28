@@ -50,3 +50,6 @@ TagManager:
   - name: Curtain
     uniqueID: 3344424575
     locked: 0
+  - name: ScreenFade
+    uniqueID: 3367735215
+    locked: 0

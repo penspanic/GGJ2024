@@ -32,13 +32,19 @@ public partial class CrowdEffectSystem : SystemBase
             var effect = ecb.Instantiate(prefab);
             ecb.SetComponent(effect, LocalTransform.FromPositionRotation(
                 req.targetPosition, quaternion.Euler(0f, 0f, Random.Range(-30, 30))));
+            double endTime = time + Random.Range(0.5f, 1.3f);
             ecb.AddComponent(effect, new LifeTime()
             {
-                endTime = time + Random.Range(0, 1.3f)
+                endTime = endTime
+            });
+            ecb.AddComponent(effect, new SpriteAlphaFade()
+            {
+                startTime = endTime - 0.4f,
+                endTime = endTime
             });
             ecb.SetComponent(effect, new PhysicsVelocity
             {
-                Linear = new float3(Random.Range(-0.5f, 0.5f), Random.Range(2f, 5f), 0f)
+                Linear = new float3(Random.Range(-0.15f, 0.15f), Random.Range(1f, 2f), 0f)
             });
         }
 

@@ -39,3 +39,5 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: db48b98074a13c54d8e4ba5e6bf46976, type: 3}
   - key: swoosh4
     audioClip: {fileID: 8300000, guid: 04a6a309918f3ab4b821bca13f38a531, type: 3}
+  - key: curtain
+    audioClip: {fileID: 8300000, guid: 159edaf7f4f6c754bbf28e8f5ea1637a, type: 3}

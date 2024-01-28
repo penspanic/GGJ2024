@@ -31,3 +31,9 @@ public struct LifeTime : IComponentData
 {
     public double endTime;
 }
+
+public struct SpriteAlphaFade : IComponentData
+{
+    public double startTime;
+    public double endTime;
+}

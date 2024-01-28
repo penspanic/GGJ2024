@@ -61,6 +61,7 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
         if (physicsWorldSingleton.OverlapSphere(position, 0.5f, ref overlapResults, filter) is false)
             return;
 
+        double time = SystemAPI.Time.ElapsedTime;
         // give laugh point to overlapped entities, selected : 0.5, distance < 0.2f, 0.3, others : 0.1
         using var ecb = new EntityCommandBuffer(Allocator.Temp);
         foreach (DistanceHit distanceHit in overlapResults)
@@ -76,6 +77,8 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
                 laughScore = 0.4f;
 
             smallCat.LaughScore = math.min(smallCat.LaughScore + laughScore, 1f);
+            smallCat.NextEffectRequestTime = -1;
+            //time + LolEffectRequestByLaughPointSystem.GetEffectSpawnInterval(smallCat.LaughScore);
             var effectReq = ecb.CreateEntity(effectReqArcheType);
             ecb.SetComponent(effectReq, new LolEffectRequest() { targetPosition = distanceHit.Position });
             ecb.SetComponent(distanceHit.Entity, smallCat);
@@ -89,10 +92,10 @@ public unsafe partial class MainScoreHandlingSystem : SystemBase
         if (callbackInit)
             return;
 
-        callbackInit = true;
-
         if(MainScene.Instance is null)
             return;
+
+        callbackInit = true;
         MainScene.Instance.OnScoreChanged += OnMainScoreChanged;
     }
 }

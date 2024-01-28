@@ -12,11 +12,13 @@ public class Curtain : MonoBehaviour
 
     public void Close()
     {
+        AudioManager.Instance?.PlaySound("curtain");
         animator.Play("Curtain_Close");
     }
 
     public void Open()
     {
+        AudioManager.Instance?.PlaySound("curtain");
         animator.Play("Curtain_Open");
     }
 
@@ -27,6 +29,7 @@ public class Curtain : MonoBehaviour
 
     public void AllEnd()
     {
+        AudioManager.Instance?.PlaySound("curtain");
         animator.Play("Curtain_AllEnd");
     }
 

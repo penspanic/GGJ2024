@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UI;
 
 public class MainScene : MonoBehaviour 
 {
@@ -30,29 +31,6 @@ public class MainScene : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            curtain.gameObject.SetActive(true);
-            LoadNextGame();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            LoadNextGame();
-        }
-    }
-
     private readonly string GAME_SCENE_PREFIX = "GameScene";
     [SerializeField] private GameObject sceneButtonsRoot;
 
@@ -71,6 +49,40 @@ public class MainScene : MonoBehaviour
             {
                 scoreText.text = score.ToString();
             }
+        }
+    }
+    private int currentGameIndex = -1;
+
+
+    private void Reset()
+    {
+        score = 0;
+        lastLoadedSceneName = string.Empty;
+        currentGameIndex = -1;
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            Reset();
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            curtain.gameObject.SetActive(true);
+            LoadNextGame();
+            ScreenFade.Instance.FadeIn();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            LoadNextGame();
         }
     }
 
@@ -114,7 +126,6 @@ public class MainScene : MonoBehaviour
         StartCoroutine(LoadNextGameRoutine());
     }
 
-    private int currentGameIndex = -1;
     private IEnumerator LoadNextGameRoutine() {
         if (currentGameIndex == 3) // 임시 테스트
         {
@@ -123,6 +134,7 @@ public class MainScene : MonoBehaviour
             yield return new WaitForSeconds(3f);
             yield return StartCoroutine(curtain.ShowCredit());
             yield return new WaitForSeconds(2f);
+            ScreenFade.Instance.FadeIn();
             SceneManager.LoadScene("StartScene");
             yield break;
         }
