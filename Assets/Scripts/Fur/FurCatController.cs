@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class FurCatController : MonoBehaviour
 {
-    [SerializeField]
-    private Slider feverSlider = null;
-    [SerializeField]
-    private Slider angrySlider = null;
+    // [SerializeField]
+    // private Slider feverSlider = null;
+    // [SerializeField]
+    // private Slider angrySlider = null;
 
     [SerializeField]
     private GameObject angryFace = null;
@@ -53,8 +53,8 @@ public class FurCatController : MonoBehaviour
         angryDurationTimer = 0f;
         angryDurationTime = Random.Range(1f, 3f);
 
-        feverSlider.value = 0f;
-        angrySlider.value = 0f;
+        // feverSlider.value = 0f;
+        // angrySlider.value = 0f;
 
         animator = GetComponent<Animator>();
     }
@@ -129,7 +129,7 @@ public class FurCatController : MonoBehaviour
         if(isAngry) {
             // add angry gauge
             angryGauge += 0.1f;
-            angrySlider.value = angryGauge;
+            // angrySlider.value = angryGauge;
 
             // if angry gauge is full
             if(angryGauge >= 1f) {
@@ -145,7 +145,7 @@ public class FurCatController : MonoBehaviour
 
             // add fever gauge
             feverGauge += 0.02f;
-            feverSlider.value = feverGauge;
+            // feverSlider.value = feverGauge;
 
             // angryFace.SetActive(false);
             // //feverFace.SetActive(false);
