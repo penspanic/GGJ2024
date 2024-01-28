@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UI;
+using Unity.Entities;
 
 public class MainScene : MonoBehaviour 
 {
@@ -71,6 +72,11 @@ public class MainScene : MonoBehaviour
     {
         if (instance != null)
             Destroy(instance);
+
+        if (World.DefaultGameObjectInjectionWorld == null)
+        {
+            DefaultWorldInitialization.Initialize("Default World", false);
+        }
 
         // if (instance == null)
         // {
@@ -144,6 +150,7 @@ public class MainScene : MonoBehaviour
             yield return StartCoroutine(curtain.ShowCredit());
             yield return new WaitForSeconds(2f);
             ScreenFade.Instance.FadeIn();
+            World.DefaultGameObjectInjectionWorld.Dispose();
             SceneManager.LoadScene("StartScene");
             yield break;
         }
